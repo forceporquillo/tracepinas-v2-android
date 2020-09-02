@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="dimens_15dp">15dp</dimen>
+    <dimen name="padding_5dp">5dp</dimen>
+    <dimen name="width_25dp">25dp</dimen>
+    <dimen name="margin_15dp">15dp</dimen>
+    <dimen name="margin_10dp">10dp</dimen>
+    <dimen name="margin_5dp">5dp</dimen>
+    <dimen name="margin_3dp">3dp</dimen>
+    <dimen name="margin_2dp">2dp</dimen>
+    <dimen name="margin_1dp">1dp</dimen>
+    <dimen name="padding_2dp">2dp</dimen>
+    <dimen name="xhdpi_layout">45dp</dimen>
+    <dimen name="_30dp">30dp</dimen>
+    <dimen name="_80dp">80dp</dimen>
+    <dimen name="_20dp">20dp</dimen>
+    <dimen name="elevation_4dp">4dp</dimen>
+    <dimen name="_10dp">10dp</dimen>
+    <dimen name="_elevation_5dp">5dp</dimen>
+    <dimen name="tab_height">48dp</dimen>
+    <dimen name="tab_height_large">72dp</dimen>
+    <dimen name="header_start">15dp</dimen>
+</resources>
