@@ -10,6 +10,6 @@ import dagger.android.ContributesAndroidInjector
 
 @Module
 abstract class ActivityBuilderModule {
-    @ContributesAndroidInjector
-    abstract fun bindFragmentContainerActivity(): NavHostActivity?
+  @ContributesAndroidInjector(modules = [FragmentBuilderModule::class])
+  abstract fun bindFragmentContainerActivity(): NavHostActivity
 }
