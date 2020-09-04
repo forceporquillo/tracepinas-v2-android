@@ -1,9 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><!--
-  ~ Created by Force Porquillo on 6/11/20 2:31 PM
-  ~ Copyright (c) 2020.  All rights reserved.
-  ~ FEU Institute of Technology
-  -->
-
+<?xml version="1.0" encoding="utf-8"?>
 <set xmlns:android="http://schemas.android.com/apk/res/android">
     <scale
         android:duration="350"

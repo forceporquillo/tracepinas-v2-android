@@ -8,7 +8,7 @@ import android.os.StrictMode
 import leakcanary.AppWatcher
 
 object DetectLeak{
-  @JvmStatic fun startLeak() {
+  fun startLeak() {
     AppWatcher.config.watchActivities
     AppWatcher.config.watchFragments
     AppWatcher.config.watchFragmentViews
@@ -19,7 +19,7 @@ object DetectLeak{
     objectWatcher.retainedObjectCount
   }
 
-  @JvmStatic fun enabledStrictMode() {
+  fun enabledStrictMode() {
     StrictMode.setThreadPolicy(
         StrictMode.ThreadPolicy.Builder()
             .detectAll()

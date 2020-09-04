@@ -1,13 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?><!--
-  ~ Created by Force on 5/21/2020.
-  ~ Copyright (c) 2020. Force Porquillo.
-  ~ All rights reserved.
-  -->
-
+<?xml version="1.0" encoding="utf-8"?>
 <set xmlns:android="http://schemas.android.com/apk/res/android"
     android:shareInterpolator="false">
     <translate
-        android:duration="300"
+        android:duration="200"
         android:fromXDelta="0%"
         android:fromYDelta="0%"
         android:toXDelta="-100%"
