@@ -4,9 +4,12 @@
 
 package com.force.codes.tracepinas.di.module
 
+import com.force.codes.tracepinas.ui.fragment.viewpager.CountryFragment
 import dagger.Module
+import dagger.android.ContributesAndroidInjector
 
 @Module
-class FragmentBuilderModule {
-
+abstract class FragmentBuilderModule {
+  @ContributesAndroidInjector
+  abstract fun contributeCountryFragment() : CountryFragment
 }
