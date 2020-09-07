@@ -6,7 +6,7 @@ package com.force.codes.tracepinas.di.module
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider.Factory
 import com.force.codes.tracepinas.di.scope.ViewModelKey
-import com.force.codes.tracepinas.ui.viewmodel.CountryViewModel
+import com.force.codes.tracepinas.ui.viewmodel.NavHostViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -20,8 +20,8 @@ abstract class ViewModelModule {
 
   @Binds
   @IntoMap
-  @ViewModelKey(CountryViewModel::class)
-  abstract fun providesCountryViewModel(
-    viewModel: CountryViewModel
+  @ViewModelKey(NavHostViewModel::class)
+  abstract fun providesNavHostViewModel(
+    viewModel: NavHostViewModel
   ) : ViewModel
 }
