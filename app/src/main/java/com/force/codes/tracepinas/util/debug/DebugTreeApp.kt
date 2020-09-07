@@ -1,15 +1,15 @@
 /*
  * Created by Force Porquillo on 7/2/20 2:49 AM
- * FEU Institute of Technology
- * Copyright (c) 2020.  All rights reserved.
- * Last modified 8/2/20 11:46 AM
  */
 
-package com.force.codes.project.app.app.debug
+package com.force.codes.tracepinas.util.debug
 
 import android.util.Log
 import timber.log.Timber
-import java.lang.AssertionError
+
+/**
+ * Timber crash log library by Jake Wharton
+ */
 
 object DebugTreeApp {
   @JvmStatic fun debug() {
@@ -21,18 +21,18 @@ object DebugTreeApp {
       priority: Int,
       tag: String?,
       message: String,
-      t: Throwable?
+      t: Throwable?,
     ) {
       if (priority == Log.VERBOSE
-          || priority == Log.DEBUG
+        || priority == Log.DEBUG
       ) {
         return
       }
 
       CrashLibrary.log(
-          priority,
-          tag,
-          message
+        priority,
+        tag,
+        message
       )
 
       t.let {
@@ -44,28 +44,22 @@ object DebugTreeApp {
       }
     }
   }
+}
 
-  class CrashLibrary private constructor() {
-    companion object {
-      fun log(
-        priority: Int,
-        tag: String?,
-        message: String?
-      ){
-        Timber.log(priority, message, tag)
-      }
+object CrashLibrary {
+  fun log(
+    priority: Int,
+    tag: String?,
+    message: String?,
+  ) {
+    Timber.log(priority, message, tag)
+  }
 
-      fun logWarning(t: Throwable?){
-        Timber.e(t)
-      }
+  fun logWarning(t: Throwable?) {
+    Timber.e(t)
+  }
 
-      fun logError(t: Throwable?){
-        Timber.e(t)
-      }
-    }
-
-    init {
-      throw AssertionError("No instances.")
-    }
+  fun logError(t: Throwable?) {
+    Timber.e(t)
   }
 }
