@@ -5,51 +5,105 @@
 package com.force.codes.tracepinas
 
 import android.app.Application
-import com.force.codes.project.app.app.debug.DebugTreeApp
+import android.os.StrictMode
 import com.force.codes.tracepinas.di.AppComponent
 import com.force.codes.tracepinas.di.DaggerAppComponent
 import com.force.codes.tracepinas.di.module.AppModule
-import com.force.codes.tracepinas.util.debug.DetectLeak.enabledStrictMode
-import com.force.codes.tracepinas.util.debug.DetectLeak.startLeak
+import com.force.codes.tracepinas.util.debug.DebugTreeApp
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
+import leakcanary.AppWatcher
 import timber.log.Timber
 import javax.inject.Inject
 
 class BaseApplication : Application(), HasAndroidInjector {
 
-    @Inject
-    lateinit var injector: DispatchingAndroidInjector<Any>
+  @Inject
+  lateinit var injector: DispatchingAndroidInjector<Any>
 
-    override fun onCreate() {
-        super.onCreate()
-        component = DaggerAppComponent.builder()
-          .application(this)
-          .appModule(AppModule(this))
-          .build()
-        component.inject(this)
-        setDebugInstance()
+  val appComponent: AppComponent?
+    get() = component
+
+  override fun androidInjector(): AndroidInjector<Any> {
+    return injector
+  }
+
+  override fun onCreate() {
+    /**
+     * disabled thread policy
+     * when working with Samsung
+     * J4 Device as DEBUG device
+     *
+     * if (BuildConfig.DEBUG) {
+     *   enabledStrictMode()
+     * }
+     *
+     * permitDiskReads {
+     *   super.onCreate()
+     * }
+     *
+     */
+
+    super.onCreate()
+    component = DaggerAppComponent.builder()
+      .application(this)
+      .appModule(AppModule(this))
+      .build()
+    component.inject(this)
+
+    setDebugInstance()
+  }
+
+  private inline fun permitDiskReads(
+    func: () -> Any,
+  ): Any {
+    return if (BuildConfig.DEBUG) {
+      val oldThreadPolicy = StrictMode.getThreadPolicy()
+      StrictMode.setThreadPolicy(
+        StrictMode.ThreadPolicy.Builder(oldThreadPolicy)
+          .permitDiskReads().build())
+      StrictMode.setThreadPolicy(oldThreadPolicy)
+      func()
+    } else {
+      func()
+    }
+  }
+
+  companion object {
+    private lateinit var component: AppComponent
+
+    private fun setDebugInstance() {
+      if (BuildConfig.DEBUG) {
+        DebugTreeApp.debug()
+        startLeak()
+      } else {
+        Timber.plant(DebugTreeApp.CrashReportingTree())
+      }
     }
 
-    val appComponent: AppComponent?
-        get() = component
+    private fun startLeak() {
+      AppWatcher.config.watchActivities
+      AppWatcher.config.watchFragments
+      AppWatcher.config.watchFragmentViews
+      AppWatcher.config.watchViewModels
 
-    override fun androidInjector(): AndroidInjector<Any> {
-        return injector
+      val objectWatcher =
+        AppWatcher.objectWatcher
+      objectWatcher.retainedObjectCount
     }
 
-    companion object {
-        private lateinit var component: AppComponent
-
-        private fun setDebugInstance() {
-            if (BuildConfig.DEBUG) {
-                DebugTreeApp.debug()
-                enabledStrictMode()
-                startLeak()
-            } else {
-                Timber.plant(DebugTreeApp.CrashReportingTree())
-            }
-        }
+    fun enabledStrictMode() {
+      StrictMode.setThreadPolicy(
+        StrictMode.ThreadPolicy.Builder()
+          .detectAll()
+          .penaltyLog()
+          .penaltyDeath().build())
+      StrictMode.setVmPolicy(
+        StrictMode.VmPolicy.Builder()
+          .detectAll()
+          .penaltyLog()
+          .penaltyDeath().build())
     }
+  }
 }
