@@ -10,36 +10,36 @@ import com.force.codes.tracepinas.util.Utils.threadCount
 import java.util.concurrent.Executor
 import java.util.concurrent.Executors
 
-class ThreadExecutor private constructor(
-    private val diskIO: Executor,
-    private val mainThread: Executor,
-    private val computation: Executor,
+open class ThreadExecutor private constructor(
+  private val diskIO: Executor,
+  private val mainThread: Executor,
+  private val computation: Executor,
 ) {
 
-    constructor(delayQueue: Int) : this(
-      Executors.newSingleThreadExecutor(),
-      ThreadExecutor(delayQueue),
-      Executors.newFixedThreadPool(threadCount)
-    )
+  constructor(delayQueue: Int) : this(
+    Executors.newSingleThreadExecutor(),
+    ThreadExecutor(delayQueue),
+    Executors.newFixedThreadPool(threadCount)
+  )
 
-    fun diskIO(): Executor {
-        return diskIO
-    }
+  fun diskIO(): Executor {
+    return diskIO
+  }
 
-    fun mainThread(): Executor {
-        return mainThread
-    }
+  fun mainThread(): Executor {
+    return mainThread
+  }
 
-    fun computationIO(): Executor {
-        return computation
-    }
+  fun computationIO(): Executor {
+    return computation
+  }
 
-    private class ThreadExecutor(
-      private val delay: Int,
-    ) : Executor {
-        private val handler = Handler(Looper.getMainLooper())
-        override fun execute(command: Runnable) {
-            handler.postDelayed(command, delay.toLong())
-        }
+  private class ThreadExecutor(
+    private val delay: Int,
+  ) : Executor {
+    private val handler = Handler(Looper.getMainLooper())
+    override fun execute(command: Runnable) {
+      handler.postDelayed(command, delay.toLong())
     }
+  }
 }
