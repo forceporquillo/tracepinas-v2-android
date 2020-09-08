@@ -49,27 +49,27 @@ object NavHelper {
       val fragmentTransaction = SUPPORT_FRAGMENT_MANAGER!!.beginTransaction()
 
       val delegateFragment = arrayOf(
-        SUPPORT_FRAGMENT_MANAGER!!.primaryNavigationFragment,
-        SUPPORT_FRAGMENT_MANAGER!!.findFragmentByTag(fragmentTag)
+          SUPPORT_FRAGMENT_MANAGER!!.primaryNavigationFragment,
+          SUPPORT_FRAGMENT_MANAGER!!.findFragmentByTag(fragmentTag)
       )
 
       when {
         FRAGMENT_INDEX > itemIndex -> {
           fragmentTransaction.setCustomAnimations(
-            anim.enter_from_left,
-            anim.exit_to_right
+              anim.enter_from_left,
+              anim.exit_to_right
           )
         }
         FRAGMENT_INDEX < itemIndex -> {
           fragmentTransaction.setCustomAnimations(
-            anim.enter_from_right,
-            anim.exit_to_left
+              anim.enter_from_right,
+              anim.exit_to_left
           )
         }
         else -> {
           fragmentTransaction.setCustomAnimations(
-            anim.fragment_fade_enter,
-            anim.fragment_fade_exit
+              anim.fragment_fade_enter,
+              anim.fragment_fade_exit
           )
         }
       }
@@ -81,7 +81,8 @@ object NavHelper {
       delegateFragment[1]?.let { f ->
         fragmentTransaction.show(f)
       } ?: run {
-        fragmentTransaction.add(id.fragment_container, it.apply {
+        fragmentTransaction.add(
+            id.fragment_container, it.apply {
           delegateFragment[1] = this
         }, fragmentTag
         )
@@ -111,41 +112,41 @@ object DrawableArray {
   ): Array<String> {
     val resources = context.resources
     return arrayOf(
-      resources.getString(string.statistics),
-      resources.getString(string.news),
-      resources.getString(string.map),
-      resources.getString(string.facilities),
-      resources.getString(string.help)
+        resources.getString(string.statistics),
+        resources.getString(string.news),
+        resources.getString(string.map),
+        resources.getString(string.facilities),
+        resources.getString(string.help)
     )
   }
 
   val DRAWABLE_ICONS = arrayOf(
-    intArrayOf(drawable.ic_stats, drawable.ic_fill_stats),
-    intArrayOf(drawable.ic_news, drawable.ic_fill_news),
-    intArrayOf(drawable.ic_map, drawable.ic_fill_map),
-    intArrayOf(drawable.ic_hospital, drawable.ic_fill_hospital),
-    intArrayOf(drawable.ic_phone, drawable.ic_fill_phone)
+      intArrayOf(drawable.ic_stats, drawable.ic_fill_stats),
+      intArrayOf(drawable.ic_news, drawable.ic_fill_news),
+      intArrayOf(drawable.ic_map, drawable.ic_fill_map),
+      intArrayOf(drawable.ic_hospital, drawable.ic_fill_hospital),
+      intArrayOf(drawable.ic_phone, drawable.ic_fill_phone)
   )
 
   val FRAGMENT_STACKS: List<Fragment>
-    get() = ArrayList(listOf(
-      StatisticsFragment.newInstance(),
-      NewsFragment.newInstance("test1", "test2"),
-      MapFragment.newInstance("test1", "test2"),
-      FacilitiesFragment.newInstance("test1", "test2"),
-      HelpFragment.newInstance("test1", "test2")
-    ))
+    get() = ArrayList(
+        listOf(
+            StatisticsFragment.newInstance(),
+            NewsFragment.newInstance("kwek", "kwek"),
+            MapFragment.newInstance("neon", "balls"),
+            FacilitiesFragment.newInstance("kuya", "butz"),
+            HelpFragment.newInstance("pandog", "w/ cheese")
+        )
+    )
 }
-
-private const val ITEM_SIZE = 5
 
 class BottomBar(
   private val recyclerView: RecyclerView,
   private val context: Context,
   private val listener: StackEventListener.BottomItemListener,
+) {
 
-  ) {
-  private val bottomItems: ArrayList<BottomBarItem> by lazy { ArrayList() }
+  private val bottomItems: ArrayList<BottomBarItem> by lazy {  ArrayList() }
 
   fun setPrimary(
     selected: Int,
@@ -155,9 +156,10 @@ class BottomBar(
 
   private val computeDeviceWidth: Int
     get() {
-      return Utils.dpToPx(context,
-        bottomItems.size + 1,
-        false
+      return Utils.dpToPx(
+          context,
+          bottomItems.size + 1,
+          false
       )
     }
 
@@ -174,13 +176,15 @@ class BottomBar(
   private fun setBottomAdapter(
     selected: Int,
   ) {
-    val bottombarAdapter = BottomAdapter(selected,
-      computeDeviceWidth, bottomItems, listener
+    val bottombarAdapter = BottomAdapter(
+        selected,
+        computeDeviceWidth, bottomItems, listener
     )
     recyclerView.apply {
-      layoutManager = LinearLayoutManager(context,
-        LinearLayoutManager.HORIZONTAL,
-        false
+      layoutManager = LinearLayoutManager(
+          context,
+          LinearLayoutManager.HORIZONTAL,
+          false
       )
       adapter = bottombarAdapter
       return@apply
@@ -195,9 +199,11 @@ class BottomBar(
   )
 }
 
+private const val ITEM_SIZE = 5
+
 class BottomAdapter(
-  private var _selected: Int,
-  private val _itemWidth: Int,
+  private var selected: Int,
+  private val itemWidth: Int,
   private val bottomItems: ArrayList<BottomBarItem>,
   private val listener: StackEventListener.BottomItemListener,
 ) : Adapter<BottomViewHolder>() {
@@ -231,8 +237,8 @@ class BottomAdapter(
     holder.apply {
       setIcon(items[0])
       setItemTitle(title)
-      resizeItemWidth(_itemWidth)
-      selectedStyle(_selected, items[2], items[0], items[1])
+      resizeItemWidth(itemWidth)
+      selectedStyle(selected, items[2], items[0], items[1])
       return@apply
     }
   }
@@ -242,8 +248,8 @@ class BottomAdapter(
     vararg items: Int,
   ) {
     holder.container.setOnClickListener {
-      listener.onBottomItemSelected(items[0].also { _selected = it })
-      holder.selectedStyle(_selected, items[0], items[1], items[2])
+      listener.onBottomItemSelected(items[0].also { selected = it })
+      holder.selectedStyle(selected, items[0], items[1], items[2])
       notifyDataSetChanged()
     }
   }
@@ -270,7 +276,7 @@ class BottomViewHolder(
     iconId: Int?,
   ) {
     itemBinding.bottomIcon
-      .setImageResource(iconId!!)
+        .setImageResource(iconId!!)
   }
 
   fun selectedStyle(
@@ -279,7 +285,6 @@ class BottomViewHolder(
     itemDefIcon: Int,
     itemFillIcon: Int,
   ): BottomBarItemBinding {
-    val context = itemBinding.root.context
     return if (itemId == select) {
       itemBinding.apply {
         bottomBarTitle.setTextColor(Color.rgb(50, 121, 210))

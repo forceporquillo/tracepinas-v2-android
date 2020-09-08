@@ -22,4 +22,5 @@
   <color name="test_color">#6A75CA</color>
   <color name="infected_color">#C96C15</color>
   <color name="selector">#F8F8F8</color>
+  <color name="gray">#BFBFBF</color>
 </resources>

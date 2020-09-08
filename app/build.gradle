@@ -37,8 +37,8 @@ android {
   }
 
   compileOptions {
-    sourceCompatibility JavaVersion.VERSION_1_8
-    targetCompatibility JavaVersion.VERSION_1_8
+    sourceCompatibility kotlin_version
+    targetCompatibility kotlin_version
   }
 
   kotlinOptions {
@@ -185,4 +185,10 @@ dependencies {
   implementation 'com.google.android.material:material:1.2.0'
 
   implementation 'com.jakewharton:process-phoenix:2.0.0'
+
+  implementation "androidx.datastore:datastore-preferences:1.0.0-alpha01"
+
+  implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
+
+  implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
 }
