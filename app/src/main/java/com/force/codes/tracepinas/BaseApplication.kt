@@ -62,7 +62,8 @@ class BaseApplication : Application(), HasAndroidInjector {
       val oldThreadPolicy = StrictMode.getThreadPolicy()
       StrictMode.setThreadPolicy(
         StrictMode.ThreadPolicy.Builder(oldThreadPolicy)
-          .permitDiskReads().build())
+          .permitDiskReads().build()
+      )
       StrictMode.setThreadPolicy(oldThreadPolicy)
       func()
     } else {
@@ -98,12 +99,14 @@ class BaseApplication : Application(), HasAndroidInjector {
         StrictMode.ThreadPolicy.Builder()
           .detectAll()
           .penaltyLog()
-          .penaltyDeath().build())
+          .penaltyDeath().build()
+      )
       StrictMode.setVmPolicy(
         StrictMode.VmPolicy.Builder()
           .detectAll()
           .penaltyLog()
-          .penaltyDeath().build())
+          .penaltyDeath().build()
+      )
     }
   }
 }
