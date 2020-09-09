@@ -9,6 +9,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase.Callback
 import com.force.codes.tracepinas.data.source.ApiSource
 import com.force.codes.tracepinas.data.source.AppDatabase
+import com.force.codes.tracepinas.data.source.ListViewDao
 import com.force.codes.tracepinas.util.constants.TIMEOUT_MILLIS
 import com.force.codes.tracepinas.util.constants.TWITTER_BEARER_TOKEN
 import com.force.codes.tracepinas.util.constants.URL_PATH
@@ -27,7 +28,7 @@ import javax.inject.Singleton
 
 @Module
 object DataBaseModule {
-  var roomCallback = object : Callback() {}
+  private var roomCallback = object : Callback() {}
 
   @Singleton @Provides fun providesLocalDatabase(
     application: Application?,
@@ -38,6 +39,13 @@ object DataBaseModule {
       .fallbackToDestructiveMigration()
       .addCallback(roomCallback)
       .build()
+  }
+
+  @Singleton
+  @Provides fun providesListViewDao(
+    database: AppDatabase
+  ): ListViewDao {
+    return database.listViewDao()
   }
 }
 
