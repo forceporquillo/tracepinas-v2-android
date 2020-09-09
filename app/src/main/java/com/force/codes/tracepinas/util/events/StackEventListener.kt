@@ -14,4 +14,8 @@ interface StackEventListener {
   interface ListActivityListener {
     fun onStartListViewActivity(view: View?)
   }
+
+  interface OnGetAdapterPosition {
+    fun onItemClicked(index: Int)
+  }
 }
