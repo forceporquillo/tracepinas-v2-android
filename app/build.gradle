@@ -45,6 +45,13 @@ android {
     jvmTarget = JavaVersion.VERSION_1_8.toString()
   }
 
+  configurations.all {
+    resolutionStrategy {
+      force("org.antlr:antlr4-runtime:4.7.1")
+      force("org.antlr:antlr4-tool:4.7.1")
+    }
+  }
+
   dexOptions {
     javaMaxHeapSize "2g"
   }
