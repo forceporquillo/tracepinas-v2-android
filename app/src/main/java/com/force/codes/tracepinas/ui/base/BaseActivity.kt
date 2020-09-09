@@ -6,6 +6,7 @@ package com.force.codes.tracepinas.ui.base
 
 import android.os.Bundle
 import androidx.core.content.ContextCompat
+import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
 import com.force.codes.tracepinas.BuildConfig.VERSION_CODE
@@ -22,11 +23,7 @@ abstract class BaseActivity : DaggerAppCompatActivity() {
   }
 
   companion object {
-    private var isFirstRun = false
-    private const val NOT_EXIST = -1
-
-    val checkIfFirstRun
-      get() = isFirstRun
+    var firstRun: ObservableBoolean = ObservableBoolean()
   }
 
   override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,17 +34,15 @@ abstract class BaseActivity : DaggerAppCompatActivity() {
     }
 
     dataStoreUtil.getStoredVersionCode.asLiveData().observe(this, { versionCode ->
-      when {
-        VERSION_CODE == versionCode -> {
-          return@observe
-        }
-        versionCode == NOT_EXIST -> {
-          isFirstRun = true
+      lifecycleScope.launch {
+
+        Timber.e(versionCode.toString())
+        dataStoreUtil.storeVersionCode(
+          if (versionCode > VERSION_CODE) versionCode else VERSION_CODE
+        ).also {
+          firstRun.set(versionCode == -1)
         }
       }
-
-      val storeKey = if (versionCode > VERSION_CODE) versionCode else VERSION_CODE
-      lifecycleScope.launch { dataStoreUtil.storeVersionCode(storeKey) }
     })
   }
 }
