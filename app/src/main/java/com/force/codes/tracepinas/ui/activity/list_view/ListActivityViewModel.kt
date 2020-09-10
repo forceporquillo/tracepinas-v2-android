@@ -14,7 +14,7 @@ import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 import javax.inject.Inject
 
-class ListViewModel
+class ListActivityViewModel
 @Inject internal constructor(
   private val listViewDao: ListViewDao,
   private val threadExecutor: ThreadExecutor,
@@ -29,15 +29,6 @@ class ListViewModel
       getListLiveData(true)
       return liveData
     }
-
-//  fun setPrimarySelected(country: String) {
-//    threadExecutor.diskIO()
-//      .execute {
-//        listViewDao.insertSelected(
-//          PrimarySelected(1, country)
-//        )
-//      }
-//  }
 
   fun orderListViewBy(defaultOrder: Boolean) {
     getListLiveData(defaultOrder)
