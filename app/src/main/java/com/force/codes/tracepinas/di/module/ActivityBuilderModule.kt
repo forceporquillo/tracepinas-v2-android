@@ -4,16 +4,19 @@
 
 package com.force.codes.tracepinas.di.module
 
-import com.force.codes.tracepinas.ui.activity.NavHostActivity
+import com.force.codes.tracepinas.ui.activity.navigation_host.NavHostActivity
+import com.force.codes.tracepinas.ui.activity.list_view.ChangeCountryActivity
+
 import com.force.codes.tracepinas.ui.activity.list_view.ListViewActivity
+
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
 @Module
 abstract class ActivityBuilderModule {
-  @ContributesAndroidInjector(modules = [FragmentBuilderModule::class])
+  @ContributesAndroidInjector(modules = [FragmentNavHostModule::class])
   abstract fun bindFragmentContainerActivity(): NavHostActivity
 
   @ContributesAndroidInjector()
-  abstract fun bindFragmentListViewActivity(): ListViewActivity
+  abstract fun bindFragmentListViewActivity(): ChangeCountryActivity
 }
