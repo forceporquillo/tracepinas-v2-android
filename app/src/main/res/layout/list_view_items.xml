@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"
+    ?><!--
+  ~ Created by Force Porquillo on 8/8/20 9:21 PM
+  ~ FEU Institute of Technology
+  ~ Copyright (c) 2020.  All rights reserved.
+  ~ Last modified 8/8/20 9:21 PM
+  -->
+<layout>
+  <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+      android:layout_width="match_parent"
+      android:id="@+id/list_view_parent"
+      android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/country"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="@{listItems.country}"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        />
+
+    <androidx.cardview.widget.CardView
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?attr/selectableItemBackground"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerInParent="true"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:padding="5dp"
+        app:cardBackgroundColor="@color/blue"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="0dp"
+        >
+
+      <TextView
+          android:id="@+id/cases"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center"
+          android:layout_marginEnd="8dp"
+          android:layout_marginStart="8dp"
+          android:fontFamily="@font/poppin_bold"
+          android:text="@{Utils.formatNumber(String.valueOf(listItems.cases))}"
+          android:textColor="@color/white"
+          android:textSize="13sp"
+          />
+    </androidx.cardview.widget.CardView>
+  </RelativeLayout>
+  <data>
+    <import type="com.force.codes.tracepinas.util.Utils" />
+    <variable
+        name="listItems"
+        type="com.force.codes.project.app.data_layer.model.country.CountryDetails"/>
+  </data>
+</layout>
