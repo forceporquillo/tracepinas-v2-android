@@ -5,8 +5,11 @@
 package com.force.codes.tracepinas.di.module
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider.Factory
+import com.force.codes.tracepinas.di.factory.ViewModelProviderFactory
 import com.force.codes.tracepinas.di.scope.ViewModelKey
-import com.force.codes.tracepinas.ui.activity.list_view.ListViewModel
+import com.force.codes.tracepinas.ui.activity.list_view.ChangeCountryViewModel
+import com.force.codes.tracepinas.ui.fragment.viewpager.listview.ListViewModel
+
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -18,10 +21,19 @@ abstract class ViewModelModule {
     factory: ViewModelProviderFactory
   ): Factory
 
+  /**
+   * @link ListViewActivity
+   */
   @Binds
   @IntoMap
   @ViewModelKey(ListViewModel::class)
   abstract fun providesNavHostViewModel(
     viewModel: ListViewModel
   ) : ViewModel
+
+  @ViewModelKey(ChangeCountryViewModel::class)
+  abstract fun providesListViewActivityViewModel(
+    activityViewModel: ChangeCountryViewModel
+  ) : ViewModel
+
 }
