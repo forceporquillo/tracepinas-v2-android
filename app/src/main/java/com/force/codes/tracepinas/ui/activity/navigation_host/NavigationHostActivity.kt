@@ -1,8 +1,12 @@
 /*
+ * Created by Force Porquillo on 9/10/20 11:14 PM
+ */
+
+/*
  * Created by Force Porquillo on 9/2/20 5:11 AM
  */
 
-package com.force.codes.tracepinas.ui.activity
+package com.force.codes.tracepinas.ui.activity.navigation_host
 
 import android.content.Context
 import android.content.Intent
@@ -12,18 +16,18 @@ import android.view.inputmethod.InputMethodManager
 import androidx.databinding.library.baseAdapters.BR
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import com.force.codes.tracepinas.custom.BottomBar
+import com.force.codes.tracepinas.custom.BottomBarItem
+import com.force.codes.tracepinas.custom.BottomItemListener
+import com.force.codes.tracepinas.custom.DrawableArray.DRAWABLE_ICONS
+import com.force.codes.tracepinas.custom.DrawableArray.FRAGMENT_STACKS
+import com.force.codes.tracepinas.custom.DrawableArray.getFragmentIds
+import com.force.codes.tracepinas.custom.NavHelper.clearFragmentManagerInstance
+import com.force.codes.tracepinas.custom.NavHelper.setDelegateFragment
+import com.force.codes.tracepinas.custom.NavHelper.setFragmentManagerInstance
 import com.force.codes.tracepinas.databinding.ActivityNavHostBinding
 import com.force.codes.tracepinas.ui.base.BaseActivity
-import com.force.codes.tracepinas.ui.fragment.StatisticsFragment
 import com.force.codes.tracepinas.ui.fragment.StatisticsFragment.Companion.newInstance
-import com.force.codes.tracepinas.util.custom.BottomBar
-import com.force.codes.tracepinas.util.custom.DrawableArray.DRAWABLE_ICONS
-import com.force.codes.tracepinas.util.custom.DrawableArray.FRAGMENT_STACKS
-import com.force.codes.tracepinas.util.custom.DrawableArray.getFragmentIds
-import com.force.codes.tracepinas.util.custom.NavHelper.clearFragmentManagerInstance
-import com.force.codes.tracepinas.util.custom.NavHelper.setDelegateFragment
-import com.force.codes.tracepinas.util.custom.NavHelper.setFragmentManagerInstance
-import com.force.codes.tracepinas.util.events.StackEventListener
 import com.jakewharton.processphoenix.ProcessPhoenix
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -37,7 +41,7 @@ private const val LAST_KEY_INDEX = "LAST_KEY_INDEX"
 private const val FRAGMENT_STATE = "FRAGMENT_STATE"
 private const val START_INDEX = 0
 
-class NavHostActivity : BaseActivity(), StackEventListener.BottomItemListener {
+class NavHostActivity : BaseActivity(), BottomItemListener {
   private lateinit var binding: ActivityNavHostBinding
   private lateinit var fragment: Fragment
 
@@ -55,17 +59,6 @@ class NavHostActivity : BaseActivity(), StackEventListener.BottomItemListener {
       binding.bottomBar.bottomParentContainer.visibility = View.VISIBLE
     }
 
-    CoroutineScope(Dispatchers.IO).launch {
-      delay(100)
-      withContext(Dispatchers.Main) {
-        if (checkIfFirstRun) {
-          lifecycleScope.launch {
-            dataStoreUtil.storePrimaryCountry("Philippines")
-          }
-        }
-      }
-    }
-
     setFragmentManagerInstance(supportFragmentManager)
 
     if (savedInstanceState == null) {
@@ -73,6 +66,22 @@ class NavHostActivity : BaseActivity(), StackEventListener.BottomItemListener {
           .also { fragment = it },
           START_INDEX.also { KEY_INDEX[it] }
       )
+    }
+  }
+
+  override fun onResume() {
+    super.onResume()
+
+    CoroutineScope(Dispatchers.IO).launch {
+      delay(1000)
+      withContext(Dispatchers.Main) {
+        if (firstRun.get()) {
+          lifecycleScope.launch {
+            Timber.e("Thread Launch")
+            dataStoreUtil.storePrimaryCountry("Philippines")
+          }
+        }
+      }
     }
   }
 
@@ -200,12 +209,12 @@ class NavHostActivity : BaseActivity(), StackEventListener.BottomItemListener {
 
     private fun addDrawables(
       context: Context,
-    ): Array<BottomBar.BottomBarItem?> {
-      val bottomItems = arrayOfNulls<BottomBar.BottomBarItem>(5)
+    ): Array<BottomBarItem?> {
+      val bottomItems = arrayOfNulls<BottomBarItem>(5)
       for (i in DRAWABLE_ICONS.indices) {
         for (j in DRAWABLE_ICONS[0].indices) {
           if (j == 0) {
-            bottomItems[i] = BottomBar.BottomBarItem(
+            bottomItems[i] = BottomBarItem(
                 i, getFragmentIds(context)[i], DRAWABLE_ICONS[i][j],
                 DRAWABLE_ICONS[i][START_INDEX + 1]
             )
