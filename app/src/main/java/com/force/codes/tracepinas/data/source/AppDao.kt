@@ -4,15 +4,24 @@
 
 package com.force.codes.tracepinas.data.source
 
+import androidx.paging.DataSource.Factory
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.force.codes.tracepinas.data.model.per_country.PerCountry
-import io.reactivex.Flowable
+
+@Dao
+interface ChangeCountryDao {
+  @Query("SELECT * FROM PerCountry ORDER BY CASE WHEN :order = 1 THEN Cases END DESC, CASE WHEN :order = 0 THEN country END")
+  suspend fun queryListViewBy(order: Boolean): List<PerCountry?>
+}
 
 @Dao
 interface ListViewDao {
-  @Query("SELECT * FROM PerCountry ORDER BY CASE WHEN :cases = 1 THEN Cases END DESC, CASE WHEN :cases = 0 THEN country END")
-  fun queryListViewBy(cases: Boolean): Flowable<List<PerCountry?>?>
+  @get:Query("SELECT * FROM PerCountry")
+  val getFromSource: Factory<Int, PerCountry>
+
+  @Insert(onConflict = OnConflictStrategy.REPLACE)
+  suspend fun saveToDb(details: PerCountry)
 }
