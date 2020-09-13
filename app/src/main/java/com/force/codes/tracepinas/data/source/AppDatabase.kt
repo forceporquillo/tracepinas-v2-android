@@ -19,5 +19,7 @@ import com.force.codes.tracepinas.data.model.per_country.PerCountry
 )
 
 abstract class AppDatabase : RoomDatabase() {
+  abstract fun changeCountryDao(): ChangeCountryDao
   abstract fun listViewDao(): ListViewDao
+
 }
