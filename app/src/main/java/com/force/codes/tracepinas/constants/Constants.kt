@@ -6,16 +6,12 @@ package com.force.codes.tracepinas.constants
 
 
 object Constants {
-  const val TIMEOUT_MILLIS = 1000
-
+  const val TIMEOUT_MILLIS = 1000L
+  const val DB_NAME = "TracePinas.db"
   const val START_DATE = "2020-01-22"
-
   const val TIME_FORMAT = "yyyy-MM-dd"
-
   const val DEFAULT = "Philippines"
-
   private const val URL_PATH = "https://corona.lmao.ninja/v2/"
-
   const val TWITTER_BEARER_TOKEN = "AAAAAAAAAAAAAAAAAAAAAA5SDwEAAAAAnF1q%2BmhNSAysxKDen" +
       "HX4De2H7x0%3DyUJnEvO0oet43pc2mWNGTlNFyF6kXOeprKwF2wx5RRpixV3WBu"
 
@@ -25,10 +21,10 @@ object Constants {
 }
 
 object PageListConstants {
-  const val PAGE_SIZE = 10 // page size
+  const val PAGE_SIZE = 10
   const val PRE_FETCH_DISTANCE = 20
-  const val PAGE_INITIAL_LOAD_SIZE_HINT = 30 // page size on first load
-  const val PAGE_MAX_SIZE = 215 // triggers when to fetch a page
+  const val PAGE_INITIAL_LOAD_SIZE_HINT = 30
+  const val PAGE_MAX_SIZE = 215
   const val isEnable = false
 }
 
