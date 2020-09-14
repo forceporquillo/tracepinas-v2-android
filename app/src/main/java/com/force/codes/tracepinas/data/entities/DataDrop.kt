@@ -1,8 +1,12 @@
 /*
+ * Created by Force Porquillo on 9/14/20 1:05 AM
+ */
+
+/*
  * Created by Force Porquillo on 9/4/20 5:25 PM
  */
 
-package com.force.codes.tracepinas.data.model.doh_csv_data_drop
+package com.force.codes.tracepinas.data.entities
 
 import androidx.room.Embedded
 import androidx.room.Entity
