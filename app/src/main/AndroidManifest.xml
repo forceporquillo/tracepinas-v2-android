@@ -20,9 +20,9 @@
       android:roundIcon="@mipmap/ic_launcher_round"
       android:supportsRtl="true"
       android:theme="@style/AppTheme">
-    <activity android:name=".ui.activity.list_view.ChangeCountryActivity" />
+    <activity android:name=".ui.activity.changecountry.ChangeCountryActivity" />
     <activity
-        android:name=".ui.activity.NavigationHostActivity"
+        android:name=".ui.activity.navigation_host.NavigationHostActivity"
         android:screenOrientation="portrait">
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />
