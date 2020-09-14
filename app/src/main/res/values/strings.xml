@@ -6,11 +6,16 @@
   <string name="map">Map</string>
   <string name="help">Help</string>
   <string name="facilities">Facilities</string>
-  <!-- TODO: Remove or change this placeholder text -->
+
   <string name="hello_blank_fragment">Hello blank fragment</string>
   <string name="change">change</string>
 
-
   <string name="select_country">Select Country</string>
+
+  <!-- ListView Fragment -->
+  <string name="hint_click">Hint: Click on a country for more statistics information</string>
+  <string name="sources">Sources: WHO, CDC, ECDC, NHC, of the PRC, JHU CSSE, DXY, QQ, and various international media.</string>
+  <string name="worldwide">Worldwide</string>
+  <string name="countries_affected">COUNTRIES AFFECTED</string>
 
 </resources>

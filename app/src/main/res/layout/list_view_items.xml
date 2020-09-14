@@ -56,6 +56,6 @@
     <import type="com.force.codes.tracepinas.util.Utils" />
     <variable
         name="listItems"
-        type="com.force.codes.project.app.data_layer.model.country.CountryDetails"/>
+        type="com.force.codes.tracepinas.data.entities.PerCountry"/>
   </data>
 </layout>

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Created by Force Porquillo on 9/12/20 6:45 AM
+  -->
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+  <data>
+
+    <variable
+        name="details"
+        type="com.force.codes.tracepinas.data.entities.PerCountry" />
+  </data>
+
+  <androidx.cardview.widget.CardView
+      android:id="@+id/worldwideItemCardView"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:clickable="true"
+      android:focusable="true"
+      android:foreground="?android:attr/selectableItemBackground"
+      app:cardBackgroundColor="@color/foregroundColor2">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:padding="4dp">
+
+      <de.hdodenhof.circleimageview.CircleImageView
+          android:id="@+id/worldwide_flag"
+          android:layout_width="55dp"
+          android:layout_height="55dp"
+          android:layout_alignParentStart="true"
+          android:layout_centerVertical="true"
+          android:layout_marginStart="@dimen/margin_5dp"
+          android:layout_marginTop="5dp"
+          android:layout_marginBottom="5dp" />
+
+      <RelativeLayout
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="@dimen/margin_10dp"
+          android:layout_marginTop="5dp"
+          android:layout_marginEnd="15dp"
+          android:layout_toEndOf="@id/worldwide_flag"
+          android:gravity="center_vertical">
+
+        <LinearLayout
+            android:id="@+id/country_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+          <TextView
+              android:id="@+id/countryName"
+              style="@style/countryDetails"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_gravity="center_vertical"
+              android:gravity="center_vertical"
+              android:text="@{details.country}" />
+
+          <TextView
+              android:id="@+id/continent"
+              style="@style/continent"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_gravity="center"
+              android:layout_marginStart="@dimen/margin_10dp"
+              android:text="@{details.continent}" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/cases_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/country_container"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="-2dp"
+            android:layout_marginEnd="1dp"
+            android:orientation="horizontal">
+
+          <TextView
+              android:id="@+id/new_cases_text"
+              style="@style/countrySubDetails"
+              android:text="1,200 new cases with total of 4,372,000 confirmed cases"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content" />
+        </RelativeLayout>
+      </RelativeLayout>
+    </RelativeLayout>
+  </androidx.cardview.widget.CardView>
+</layout>

@@ -11,6 +11,7 @@
       android:foreground="?attr/selectableItemBackground"
       android:visibility="gone"
       tools:targetApi="m"
+      tools:ignore="UnusedAttribute"
       >
 
     <RelativeLayout

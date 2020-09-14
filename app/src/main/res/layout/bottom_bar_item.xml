@@ -10,7 +10,7 @@
 
         <variable
             name="bottomBar"
-            type="com.force.codes.tracepinas.ui.activity.navhost.BottomViewHolder" />
+            type="com.force.codes.tracepinas.ui.activity.navhost.BottomAdapter" />
     </data>
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"

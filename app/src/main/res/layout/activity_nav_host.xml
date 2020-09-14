@@ -4,7 +4,7 @@
   <data>
     <variable
         name="activity"
-        type="com.force.codes.tracepinas.ui.activity.NavHostActivity"
+        type="com.force.codes.tracepinas.ui.activity.navigation_host.NavigationHostActivity"
         />
   </data>
   <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
