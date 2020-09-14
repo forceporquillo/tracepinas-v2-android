@@ -129,11 +129,11 @@ object DrawableArray {
   val FRAGMENT_STACKS: List<Fragment>
     get() = ArrayList(
       listOf(
-        StatisticsFragment.newInstance(),
-        NewsFragment.newInstance("kwek", "kwek"),
-        MapFragment.newInstance("neon", "balls"),
-        FacilitiesFragment.newInstance("kuya", "butz"),
-        HelpFragment.newInstance("pandog", "w/ cheese")
+        StatisticsFragment(),
+        NewsFragment(),
+        MapFragment(),
+        FacilitiesFragment(),
+        HelpFragment()
       )
     )
 }
