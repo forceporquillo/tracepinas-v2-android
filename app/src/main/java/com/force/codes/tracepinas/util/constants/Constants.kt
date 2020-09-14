@@ -2,7 +2,7 @@
  * Created by Force Porquillo on 9/4/20 6:31 PM
  */
 
-package com.force.codes.tracepinas.constants
+package com.force.codes.tracepinas.util.constants
 
 
 object Constants {
@@ -27,4 +27,9 @@ object PageListConstants {
   const val PAGE_MAX_SIZE = 215
   const val isEnable = false
 }
+
+const val SUPPRESS = "UNCHECKED_CAST"
+const val LIST_VIEW = 1
+const val TWITTER_VIEW = 2
+const val GLOBAL_NEWS = 3
 

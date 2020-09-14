@@ -1,8 +1,12 @@
 /*
+ * Created by Force Porquillo on 9/15/20 12:46 AM
+ */
+
+/*
  * Created by Force Porquillo on 9/8/20 1:00 AM
  */
 
-package com.force.codes.tracepinas.util
+package com.force.codes.tracepinas.util.sharedpref
 
 import android.content.Context
 import androidx.datastore.DataStore
@@ -10,7 +14,7 @@ import androidx.datastore.preferences.Preferences
 import androidx.datastore.preferences.createDataStore
 import androidx.datastore.preferences.edit
 import androidx.datastore.preferences.preferencesKey
-import com.force.codes.tracepinas.constants.Constants.DEFAULT
+import com.force.codes.tracepinas.util.constants.Constants.DEFAULT
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 

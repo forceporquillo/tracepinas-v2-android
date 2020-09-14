@@ -1,8 +1,16 @@
 /*
+ * Created by Force Porquillo on 9/15/20 12:46 AM
+ */
+
+/*
+ * Created by Force Porquillo on 9/15/20 12:34 AM
+ */
+
+/*
  * Created by Force Porquillo on 9/2/20 6:39 AM
  */
 
-package com.force.codes.tracepinas.custom
+package com.force.codes.tracepinas.ui.activity.navhost
 
 import android.content.Context
 import android.graphics.Color

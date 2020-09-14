@@ -1,11 +1,12 @@
 /*
- * Created by Force Porquillo on 6/14/20 3:25 PM
- * FEU Institute of Technology
- * Copyright (c) 2020.  All rights reserved.
- * Last modified 8/1/20 10:55 PM
+ * Created by Force Porquillo on 9/15/20 12:48 AM
  */
 
-package com.force.codes.tracepinas.custom
+/*
+ * Created by Force Porquillo on 9/15/20 12:34 AM
+ */
+
+package com.force.codes.tracepinas.util.views
 
 import android.R.attr
 import android.content.Context
@@ -20,13 +21,6 @@ import androidx.recyclerview.widget.RecyclerView.LayoutParams
 import androidx.recyclerview.widget.RecyclerView.State
 import com.force.codes.tracepinas.util.Utils
 
-/**
- * A custom item decoration in [RecyclerView]
- * for adding margin line in each
- * itemView type at runtime.
- *
- * @author Force Porquillo
- */
 class ItemDecoration(
   private val context: Context,
   orientation: Int,
@@ -93,11 +87,11 @@ class ItemDecoration(
       val right = left + (drawable?.intrinsicHeight ?: 0)
       drawable!!.apply {
         setBounds(left, top + Utils.dpToPx(
-            context, margin, true
+          context, margin, true
         ),
             right, bottom - Utils.dpToPx(
             context, margin, true
-        )
+          )
         )
         draw(canvas!!)
       }

@@ -2,7 +2,7 @@
  * Created by Force Porquillo on 7/2/20 2:49 AM
  */
 
-package com.force.codes.tracepinas.debug
+package com.force.codes.tracepinas.util.debug
 
 import android.util.Log
 import timber.log.Timber
