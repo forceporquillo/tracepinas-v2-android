@@ -9,10 +9,10 @@ import androidx.room.Room
 import androidx.room.RoomDatabase.Callback
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.force.codes.tracepinas.BuildConfig
-import com.force.codes.tracepinas.constants.Constants
-import com.force.codes.tracepinas.data.source.AppDatabase
-import com.force.codes.tracepinas.data.source.ChangeCountryDao
-import com.force.codes.tracepinas.data.source.ListViewDao
+import com.force.codes.tracepinas.util.constants.Constants
+import com.force.codes.tracepinas.data.source.local.AppDatabase
+import com.force.codes.tracepinas.data.source.local.ChangeCountryDao
+import com.force.codes.tracepinas.data.source.local.ListViewDao
 import dagger.Module
 import dagger.Provides
 import timber.log.Timber

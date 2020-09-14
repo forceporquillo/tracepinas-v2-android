@@ -4,8 +4,8 @@
 
 package com.force.codes.tracepinas.di.module
 
-import com.force.codes.tracepinas.data.repository.listview.ListViewRepository
-import com.force.codes.tracepinas.data.repository.listview.ListViewRepositoryImpl
+import com.force.codes.tracepinas.data.repository.ListViewRepository
+import com.force.codes.tracepinas.data.repository.ListViewRepositoryImpl
 import dagger.Binds
 import dagger.Module
 
