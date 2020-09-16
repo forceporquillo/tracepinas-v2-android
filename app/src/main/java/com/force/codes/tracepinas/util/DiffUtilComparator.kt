@@ -12,7 +12,7 @@ import com.force.codes.tracepinas.data.entities.PerCountry
  * PagedList DiffUtil
  */
 
-open class DiffUtilComparator<T> : ItemCallback<T>() {
+class DiffUtilComparator<T> : ItemCallback<T>() {
   override fun areItemsTheSame(oldItem: T, newItem: T): Boolean {
     when (oldItem) {
       is PerCountry -> {
