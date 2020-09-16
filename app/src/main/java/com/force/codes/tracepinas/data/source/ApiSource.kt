@@ -4,17 +4,14 @@
 
 package com.force.codes.tracepinas.data.source
 
-import com.force.codes.tracepinas.data.model.per_country.PerCountry
-import com.force.codes.tracepinas.wrapper.ErrorResponse
+import com.force.codes.tracepinas.data.entities.PerCountry
+import com.force.codes.tracepinas.util.ErrorResponse
 import com.haroldadmin.cnradapter.NetworkResponse
-import io.reactivex.Flowable
-import retrofit2.Call
-import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Url
 
 interface ApiSource {
-  @GET suspend fun getAffectedCountries(
+  @GET suspend fun getPerCountryData(
     @Url url: String?
-  ): List<PerCountry>
+  ): NetworkResponse<List<PerCountry>, ErrorResponse>
 }
