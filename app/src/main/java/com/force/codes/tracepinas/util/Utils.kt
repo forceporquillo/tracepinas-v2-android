@@ -19,6 +19,7 @@ import android.util.TypedValue
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
 import com.force.codes.tracepinas.R
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
@@ -174,6 +175,13 @@ object Utils {
                 pushAnim,
                 pullAnim
             )
+    }
+
+    fun getResColorId(
+        context: Context?,
+        colorId: Int
+    ) : Int {
+        return ContextCompat.getColor(context!!, colorId)
     }
 
     @RequiresApi(api = VERSION_CODES.N)
