@@ -1,6 +1,5 @@
 package com.force.codes.tracepinas
 
-import com.force.codes.tracepinas.util.service.ThreadExecutor
 import org.junit.Test
 
 import org.junit.Assert.*

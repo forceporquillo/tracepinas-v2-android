@@ -7,9 +7,9 @@ package com.force.codes.tracepinas
 import android.app.Application
 import android.os.StrictMode
 import com.force.codes.tracepinas.di.AppComponent
-import com.force.codes.tracepinas.di.DaggerAppComponent
 import com.force.codes.tracepinas.di.module.AppModule
 import com.force.codes.tracepinas.util.debug.DebugTreeApp
+import com.force.codes.tracepinas.di.DaggerAppComponent
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector

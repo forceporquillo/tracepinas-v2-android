@@ -2,7 +2,6 @@ package com.force.codes.tracepinas
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.force.codes.tracepinas.util.service.ThreadExecutor
 
 import org.junit.Test
 import org.junit.runner.RunWith
