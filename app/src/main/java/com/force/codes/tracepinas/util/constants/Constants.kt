@@ -4,7 +4,6 @@
 
 package com.force.codes.tracepinas.util.constants
 
-
 object Constants {
   const val TIMEOUT_MILLIS = 1000L
   const val DB_NAME = "TracePinas.db"
@@ -32,4 +31,4 @@ const val SUPPRESS = "UNCHECKED_CAST"
 const val LIST_VIEW = 1
 const val TWITTER_VIEW = 2
 const val GLOBAL_NEWS = 3
-
+const val CHANGE_COUNTRY = 1
