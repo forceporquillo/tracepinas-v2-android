@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:background="?attr/selectableItemBackground"
     android:paddingLeft="2dp"
+    android:layout_marginTop="@dimen/margin_3dp"
     android:gravity="center"
     android:paddingRight="2dp"
     android:fontFamily="@font/poppin_medium"

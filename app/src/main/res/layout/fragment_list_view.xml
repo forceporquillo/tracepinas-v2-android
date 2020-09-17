@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Created by Force Porquillo on 9/3/20 12:07 PM
+  -->
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+  <data>
+
+    <import type="android.view.View" />
+
+    <variable
+        name="viewmodel"
+        type="com.force.codes.tracepinas.ui.fragment.viewpager.listview.ListViewModel"
+        />
+  </data>
+
+  <androidx.coordinatorlayout.widget.CoordinatorLayout
+      android:id="@+id/coordinator"
+      android:background="@color/white"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:elevation="4dp">
+
+      <com.google.android.material.appbar.CollapsingToolbarLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          app:layout_scrollFlags="scroll|snap|exitUntilCollapsed">
+
+<!--        <include-->
+<!--            android:id="@+id/included_layout"-->
+<!--            layout="@layout/details_layout"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            app:layout_collapseMode="parallax" />-->
+
+      </com.google.android.material.appbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_fresh"
+        app:onRefreshListener="@{viewmodel::refresh}"
+        app:refreshing="@{viewmodel.dataLoading}"
+        app:swipeRefreshLayoutProgressSpinnerBackgroundColor="@color/blue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+      <RelativeLayout
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:orientation="vertical">
+
+        <LinearLayout
+            android:visibility="@{viewmodel.network ? View.VISIBLE : View.GONE}"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+          <View
+              android:id="@+id/no_connection"
+              android:foregroundGravity="center"
+              android:layout_width="250dp"
+              android:layout_height="250dp"
+              android:background="@drawable/no_wifi_connection"
+              android:layout_gravity="center"/>
+
+          <TextView
+              android:textSize="16sp"
+              android:id="@+id/no_connection_text"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:textAlignment="center"
+              android:textColor="@color/blue"
+              android:textStyle="bold"
+              android:text="@string/no_internet_connection"
+              android:fontFamily="@font/poppin_medium"/>
+
+          <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:textAlignment="center"
+              android:text="@string/please_check_your_internet_settings"
+              android:fontFamily="@font/poppin_medium"/>
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/foregroundColor2" />
+
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/shimmer_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:shimmer_auto_start="true"
+            app:shimmer_duration="2000"
+            app:shimmer_repeat_mode="restart">
+
+        </com.facebook.shimmer.ShimmerFrameLayout>
+      </RelativeLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+  </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

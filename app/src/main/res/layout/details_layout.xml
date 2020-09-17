@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Created by Force Porquillo on 9/10/20 11:59 AM
+  -->
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+  <RelativeLayout
+      android:id="@id/container"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:background="@color/foregroundColor2"
+      android:elevation="8dp">
+
+    <RelativeLayout
+        android:id="@+id/worldwide_container"
+        android:layout_width="wrap_content"
+        android:layout_height="?attr/actionBarSize">
+
+      <TextView
+          android:layout_centerVertical="true"
+          android:id="@+id/worldwide"
+          style="@style/fragment_title"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="15dp"
+          android:text="@string/worldwide" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/overview_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/foregroundColor2">
+
+      <RelativeLayout
+          android:id="@+id/countries_affected_container"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="7dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="@dimen/margin_5dp"
+            android:background="@color/blue" />
+
+        <TextView
+            android:id="@+id/countries_affected"
+            style="@style/affected_sources"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="10dp"
+            android:text="@string/countries_affected"
+            android:textColor="@color/blue" />
+      </RelativeLayout>
+
+      <RelativeLayout
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_below="@id/countries_affected_container"
+          android:elevation="8dp">
+
+        <TextView
+            android:id="@+id/source_text"
+            style="@style/sources"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="15dp"
+            android:text="@string/sources" />
+
+        <View
+            android:id="@+id/info_icon"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_below="@id/source_text"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="3dp"
+            android:background="@drawable/ic_info" />
+
+        <TextView
+            style="@style/sources"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/source_text"
+            android:layout_margin="2dp"
+            android:layout_toEndOf="@id/info_icon"
+            android:gravity="center_vertical"
+            android:text="@string/hint_click"
+            android:textColor="@color/blue" />
+      </RelativeLayout>
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/divider_line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/overview_container"
+        android:background="@android:color/darker_gray" />
+  </RelativeLayout>
+</layout>

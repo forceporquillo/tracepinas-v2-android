@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Created by Force Porquillo on 9/17/20 5:06 AM
+  -->
+
+<resources>
+  <declare-styleable name="SwipeRefreshLayout">
+    <attr name="refreshing" format="boolean" />
+  </declare-styleable>
+</resources>
