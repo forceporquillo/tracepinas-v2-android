@@ -19,7 +19,7 @@ import com.force.codes.tracepinas.data.entities.PerCountry
     DayOne::class,
     PerCountry::class,
     Provinces::class
-  ], version = 5, exportSchema = false
+  ], version = 6, exportSchema = false
 )
 
 abstract class AppDatabase : RoomDatabase() {

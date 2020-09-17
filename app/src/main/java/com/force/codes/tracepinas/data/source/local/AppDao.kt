@@ -8,6 +8,7 @@
 
 package com.force.codes.tracepinas.data.source.local
 
+import androidx.lifecycle.LiveData
 import androidx.paging.DataSource.Factory
 import androidx.room.Dao
 import androidx.room.Insert
@@ -18,7 +19,7 @@ import com.force.codes.tracepinas.data.entities.PerCountry
 @Dao
 interface ChangeCountryDao {
   @Query("SELECT * FROM PerCountry ORDER BY CASE WHEN :order = 1 THEN Cases END DESC, CASE WHEN :order = 0 THEN country END")
-  suspend fun queryListViewBy(order: Boolean): List<PerCountry?>
+  fun queryListViewBy(order: Boolean): LiveData<List<PerCountry>>
 }
 
 @Dao

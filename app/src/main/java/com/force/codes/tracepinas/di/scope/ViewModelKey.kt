@@ -11,7 +11,6 @@ import kotlin.annotation.AnnotationTarget.PROPERTY_GETTER
 import kotlin.annotation.AnnotationTarget.PROPERTY_SETTER
 import kotlin.reflect.KClass
 
-
 @MustBeDocumented
 @Target(FUNCTION, PROPERTY_GETTER, PROPERTY_SETTER)
 @kotlin.annotation.Retention(AnnotationRetention.RUNTIME)
