@@ -11,6 +11,7 @@ import io.reactivex.disposables.Disposable
 abstract class BaseViewModel protected constructor() : ViewModel() {
   private val compositeDisposable: CompositeDisposable = CompositeDisposable()
 
+  @Deprecated("Replace RxJava with Coroutines")
   fun addToUnsubscribed(disposable: Disposable?) {
     compositeDisposable.add(disposable!!)
   }
