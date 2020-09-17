@@ -1,8 +1,8 @@
 /*
- * Created by Force Porquillo on 9/15/20 1:01 AM
+ * Created by Force Porquillo on 9/17/20 12:45 PM
  */
 
-package com.force.codes.tracepinas.util.views
+package com.force.codes.tracepinas.util.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -12,9 +12,6 @@ import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.force.codes.tracepinas.data.entities.PerCountry
 import com.force.codes.tracepinas.databinding.ListViewItemsBinding
-import com.force.codes.tracepinas.util.DiffUtilComparator
-import com.force.codes.tracepinas.util.constants.SUPPRESS
-import java.lang.IllegalArgumentException
 
 class GenericAdapter<T>(
   private val listener: AdapterListener,

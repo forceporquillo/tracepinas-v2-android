@@ -1,8 +1,8 @@
 /*
- * Created by Force Porquillo on 9/15/20 12:49 AM
+ * Created by Force Porquillo on 9/17/20 12:45 PM
  */
 
-package com.force.codes.tracepinas.util.views
+package com.force.codes.tracepinas.util.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.force.codes.tracepinas.data.entities.PerCountry
 import com.force.codes.tracepinas.util.constants.LIST_VIEW
 import com.force.codes.tracepinas.databinding.PerCountryListBinding
-import com.force.codes.tracepinas.util.DiffUtilComparator
 
 class PagedListAdapter<T>(
   private val holderType: Int,

@@ -2,7 +2,7 @@
  * Created by Force Porquillo on 9/12/20 8:27 AM
  */
 
-package com.force.codes.tracepinas.util
+package com.force.codes.tracepinas.util.adapter
 
 import android.annotation.SuppressLint
 import androidx.recyclerview.widget.DiffUtil.ItemCallback

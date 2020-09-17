@@ -1,8 +1,8 @@
 /*
- * Created by Force Porquillo on 9/15/20 1:19 AM
+ * Created by Force Porquillo on 9/17/20 12:45 PM
  */
 
-package com.force.codes.tracepinas.util.views
+package com.force.codes.tracepinas.util.adapter
 
 import android.view.View
 import android.view.View.OnClickListener
