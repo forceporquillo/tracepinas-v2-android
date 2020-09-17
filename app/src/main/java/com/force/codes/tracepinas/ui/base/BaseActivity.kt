@@ -4,17 +4,19 @@
 
 package com.force.codes.tracepinas.ui.base
 
+import android.os.Build
 import android.os.Bundle
-import androidx.core.content.ContextCompat
+import android.view.WindowManager
 import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
 import com.force.codes.tracepinas.BuildConfig.VERSION_CODE
 import com.force.codes.tracepinas.R
-import com.force.codes.tracepinas.util.DataStoreUtil
+import com.force.codes.tracepinas.util.sharedpref.DataStoreUtil
+import com.force.codes.tracepinas.util.Utils
+import com.force.codes.tracepinas.util.Utils.getResColorId
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 abstract class BaseActivity : DaggerAppCompatActivity() {
 
@@ -29,19 +31,19 @@ abstract class BaseActivity : DaggerAppCompatActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
 
-    window.statusBarColor.apply {
-      ContextCompat.getColor(this@BaseActivity, R.color.white)
+    if (Utils.sDKInt >= Build.VERSION_CODES.LOLLIPOP) {
+      window.apply {
+        addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        getResColorId(this@BaseActivity, R.color.blue)
+      }
+    } else {
+      window.statusBarColor = getResColorId(this@BaseActivity, R.color.white)
     }
 
-    dataStoreUtil.getStoredVersionCode.asLiveData().observe(this, { versionCode ->
+    dataStoreUtil.getStoredVersionCode.asLiveData().observe(this, {
       lifecycleScope.launch {
-
-        Timber.e(versionCode.toString())
-        dataStoreUtil.storeVersionCode(
-          if (versionCode > VERSION_CODE) versionCode else VERSION_CODE
-        ).also {
-          firstRun.set(versionCode == -1)
-        }
+        dataStoreUtil.storeVersionCode(if (it > VERSION_CODE) it else VERSION_CODE)
+        firstRun.set(it == -1)
       }
     })
   }
