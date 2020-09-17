@@ -14,7 +14,7 @@ import com.force.codes.tracepinas.util.constants.LIST_VIEW
 import com.force.codes.tracepinas.databinding.PerCountryListBinding
 import com.force.codes.tracepinas.util.DiffUtilComparator
 
-open class PagedListAdapter<T>(
+class PagedListAdapter<T>(
   private val holderType: Int,
   private val listener: AdapterListener,
 ) : PagedListAdapter<T, ViewHolder>(DiffUtilComparator<T>()) {
