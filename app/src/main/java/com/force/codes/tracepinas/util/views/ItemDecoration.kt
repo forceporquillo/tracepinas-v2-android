@@ -2,10 +2,6 @@
  * Created by Force Porquillo on 9/15/20 12:48 AM
  */
 
-/*
- * Created by Force Porquillo on 9/15/20 12:34 AM
- */
-
 package com.force.codes.tracepinas.util.views
 
 import android.R.attr

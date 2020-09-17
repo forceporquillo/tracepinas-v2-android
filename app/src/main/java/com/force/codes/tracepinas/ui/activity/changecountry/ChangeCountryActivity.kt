@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.widget.SearchView
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,8 +16,8 @@ import com.force.codes.tracepinas.data.entities.PerCountry
 import com.force.codes.tracepinas.databinding.ActivityListViewBinding
 import com.force.codes.tracepinas.di.factory.ViewModelProviderFactory
 import com.force.codes.tracepinas.ui.base.BaseActivity
-import com.force.codes.tracepinas.util.views.AdapterListener
-import com.force.codes.tracepinas.util.views.GenericAdapter
+import com.force.codes.tracepinas.util.adapter.AdapterListener
+import com.force.codes.tracepinas.util.adapter.GenericAdapter
 import com.force.codes.tracepinas.util.views.ItemDecoration
 import kotlinx.coroutines.launch
 import timber.log.Timber

@@ -1,9 +1,5 @@
 /*
- * Created by Force Porquillo on 9/15/20 12:46 AM
- */
-
-/*
- * Created by Force Porquillo on 9/8/20 1:00 AM
+ * Created by Force Porquillo on 9/17/20 12:46 PM
  */
 
 package com.force.codes.tracepinas.util.sharedpref

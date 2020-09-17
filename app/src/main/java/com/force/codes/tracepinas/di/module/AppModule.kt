@@ -6,7 +6,7 @@ package com.force.codes.tracepinas.di.module
 
 import android.app.Application
 import com.force.codes.tracepinas.BaseApplication
-import com.force.codes.tracepinas.service.ThreadExecutor
+import com.force.codes.tracepinas.util.ThreadExecutor
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
