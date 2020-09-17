@@ -93,3 +93,5 @@ data class Resource<out T>(
     }
   }
 }
+
+data class fetchResult(var result: Boolean)
