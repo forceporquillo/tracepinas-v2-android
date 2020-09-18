@@ -6,6 +6,7 @@ package com.force.codes.tracepinas.data.source
 
 import com.force.codes.tracepinas.data.entities.PerCountry
 import com.force.codes.tracepinas.util.ErrorResponse
+import com.force.codes.tracepinas.util.ResultWrapper
 import com.haroldadmin.cnradapter.NetworkResponse
 import retrofit2.http.GET
 import retrofit2.http.Url

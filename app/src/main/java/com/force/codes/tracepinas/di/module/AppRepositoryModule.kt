@@ -4,8 +4,8 @@
 
 package com.force.codes.tracepinas.di.module
 
-import com.force.codes.tracepinas.data.repository.ListViewRepository
-import com.force.codes.tracepinas.data.repository.ListViewRepositoryImpl
+import com.force.codes.tracepinas.data.repository.PerCountryRepository
+import com.force.codes.tracepinas.data.repository.PerCountryRepositoryImpl
 import dagger.Binds
 import dagger.Module
 
@@ -13,6 +13,6 @@ import dagger.Module
 abstract class AppRepositoryModule {
   @Binds
   abstract fun providesListViewRepository(
-    repository: ListViewRepositoryImpl
-  ) : ListViewRepository
+    repository: PerCountryRepositoryImpl
+  ) : PerCountryRepository
 }

@@ -6,7 +6,7 @@ package com.force.codes.tracepinas.di.module
 
 
 import com.force.codes.tracepinas.ui.activity.changecountry.ChangeCountryActivity
-import com.force.codes.tracepinas.ui.activity.navigation_host.NavigationHostActivity
+import com.force.codes.tracepinas.ui.activity.navhost.NavigationHostActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
