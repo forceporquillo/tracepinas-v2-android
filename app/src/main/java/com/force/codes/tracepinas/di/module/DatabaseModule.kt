@@ -9,10 +9,8 @@ import androidx.room.Room
 import androidx.room.RoomDatabase.Callback
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.force.codes.tracepinas.BuildConfig
-import com.force.codes.tracepinas.util.constants.Constants
 import com.force.codes.tracepinas.data.source.local.AppDatabase
-import com.force.codes.tracepinas.data.source.local.ChangeCountryDao
-import com.force.codes.tracepinas.data.source.local.ListViewDao
+import com.force.codes.tracepinas.data.source.local.PerCountryDao
 import dagger.Module
 import dagger.Provides
 import timber.log.Timber
@@ -32,25 +30,20 @@ object DatabaseModule {
   @Singleton @Provides fun providesLocalDatabase(
     application: Application?,
   ): AppDatabase {
-    return Room.databaseBuilder(
-      application!!, AppDatabase::class.java, Constants.DB_NAME)
-      .fallbackToDestructiveMigration()
-      .addCallback(roomCallback)
-      .build()
+    return Room.inMemoryDatabaseBuilder(application!!, AppDatabase::class.java).build()
+
+//      .databaseBuilder(
+//        application!!, AppDatabase::class.java, Constants.DB_NAME)
+//      .fallbackToDestructiveMigration()
+//      .addCallback(roomCallback)
+//      .build()
   }
 
   @Singleton
-  @Provides fun providesListViewDao(
+  @Provides fun providesPerCountryDao(
     database: AppDatabase
-  ): ChangeCountryDao {
-    return database.changeCountryDao()
-  }
-
-  @Singleton
-  @Provides fun providesListViewFragmentDao(
-    database: AppDatabase
-  ): ListViewDao {
-    return database.listViewDao()
+  ): PerCountryDao {
+    return database.perCountryDao()
   }
 
 }
