@@ -9,15 +9,18 @@ import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.force.codes.tracepinas.BuildConfig
 import com.force.codes.tracepinas.R
 import com.force.codes.tracepinas.util.constants.LIST_VIEW
-import com.force.codes.tracepinas.util.views.PagedListAdapter
-import com.force.codes.tracepinas.util.views.AdapterListener
+import com.force.codes.tracepinas.util.adapter.PagedListAdapter
+import com.force.codes.tracepinas.util.adapter.AdapterListener
 import com.force.codes.tracepinas.data.entities.PerCountry
 import com.force.codes.tracepinas.databinding.FragmentListViewBinding
 import com.force.codes.tracepinas.di.factory.ViewModelProviderFactory
 import com.force.codes.tracepinas.ui.base.BaseFragment
 import com.force.codes.tracepinas.util.views.setupRefreshLayout
+import com.force.codes.tracepinas.util.views.setupSnackBar
+import com.google.android.material.snackbar.Snackbar
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -25,7 +28,7 @@ class ListViewFragment : BaseFragment(
   R.layout.fragment_list_view
 ), AdapterListener {
 
-  private lateinit var binding: FragmentListViewBinding
+  private lateinit var viewDataBinding: FragmentListViewBinding
 
   @Inject lateinit var factory: ViewModelProviderFactory
 
@@ -37,28 +40,31 @@ class ListViewFragment : BaseFragment(
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
-    binding = FragmentListViewBinding.bind(view)
+    viewDataBinding = FragmentListViewBinding.bind(view)
   }
 
   override fun onActivityCreated(savedInstanceState: Bundle?) {
     super.onActivityCreated(savedInstanceState)
 
-    binding.apply {
+    viewDataBinding.apply {
       lifecycleOwner = this@ListViewFragment.viewLifecycleOwner
       viewmodel = listViewModel
     }
 
     setupListAdapter()
-    setupRefreshLayout(binding.swipeFresh, null)
+    view?.setupSnackBar(this, listViewModel.snackBarText, Snackbar.LENGTH_LONG)
+    setupRefreshLayout(viewDataBinding.swipeFresh, null)
 
     listViewModel.items.observe(viewLifecycleOwner, {
       listAdapter.submitList(it)
 
-      it?.let {
-        Timber.e("Data ${it.size}")
+      if (BuildConfig.DEBUG) {
+        it?.let {
+          Timber.e("Data ${it.size}")
+        }
       }
 
-      binding.recyclerView.apply {
+      viewDataBinding.recyclerView.apply {
         layoutManager = LinearLayoutManager(context!!)
         adapter = listAdapter
       }
@@ -71,10 +77,12 @@ class ListViewFragment : BaseFragment(
 
   override fun onDestroyView() {
     super.onDestroyView()
-    binding.unbind()
+    viewDataBinding.unbind()
   }
 
   override fun onGetAdapterPosition(position: Int) {
-    Toast.makeText(context!!, "Index clicked is at $position", Toast.LENGTH_LONG).show()
+    Toast.makeText(context!!,
+      "Index clicked is at ${listViewModel.items.value?.get(position)?.country}",
+      Toast.LENGTH_LONG).show()
   }
 }
