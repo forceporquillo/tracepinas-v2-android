@@ -2,10 +2,6 @@
  * Created by Force Porquillo on 9/15/20 12:46 AM
  */
 
-/*
- * Created by Force Porquillo on 9/15/20 12:34 AM
- */
-
 package com.force.codes.tracepinas.ui.activity.navhost
 
 import android.content.Context
@@ -58,20 +54,17 @@ object NavHelper {
       when {
         FRAGMENT_INDEX > itemIndex -> {
           fragmentTransaction.setCustomAnimations(
-            anim.enter_from_left,
-            anim.exit_to_right
+            anim.enter_from_left, anim.exit_to_right
           )
         }
         FRAGMENT_INDEX < itemIndex -> {
           fragmentTransaction.setCustomAnimations(
-            anim.enter_from_right,
-            anim.exit_to_left
+            anim.enter_from_right, anim.exit_to_left
           )
         }
         else -> {
           fragmentTransaction.setCustomAnimations(
-            anim.fragment_fade_enter,
-            anim.fragment_fade_exit
+            anim.fragment_fade_enter, anim.fragment_fade_exit
           )
         }
       }
@@ -152,7 +145,7 @@ class BottomBar(
   private val listener: BottomItemListener,
 ) {
 
-  private val bottomItems: ArrayList<BottomBarItem> by lazy { ArrayList() }
+  private val bottomItems = ArrayList<BottomBarItem>()
 
   fun setPrimary(
     selected: Int,
