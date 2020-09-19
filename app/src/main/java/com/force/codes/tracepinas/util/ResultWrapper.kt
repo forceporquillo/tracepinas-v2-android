@@ -2,10 +2,6 @@
  * Created by Force Porquillo on 9/14/20 10:44 AM
  */
 
-/*
- * Created by Force Porquillo on 9/12/20 4:39 AM
- */
-
 package com.force.codes.tracepinas.util
 
 import com.force.codes.tracepinas.util.Resource.Status.ERROR
@@ -20,11 +16,14 @@ import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 import java.io.IOException
 
-sealed class ResultWrapper<out T> {
-  data class Success<out T>(val data: T) : ResultWrapper<T>()
+sealed class ResultWrapper<out T : Any> {
+  data class Success<out T : Any>(
+    val body: T
+  ) : ResultWrapper<T>()
 
   data class GenericError(
-    val code: Int? = null, val error: ErrorResponse? = null
+    val code: Int? = null,
+    val error: ErrorResponse? = null
   ) : ResultWrapper<Nothing>()
 
   object NetworkError : ResultWrapper<Nothing>()
@@ -32,7 +31,7 @@ sealed class ResultWrapper<out T> {
 
 data class ErrorResponse(var errorMessage: String)
 
-suspend fun <T> safeApiCall(
+suspend fun <T : Any> safeApiCall(
   dispatcher: CoroutineDispatcher,
   apiCall: suspend () -> T
 ): ResultWrapper<T> {
@@ -40,14 +39,16 @@ suspend fun <T> safeApiCall(
     try {
       Success(apiCall.invoke())
     } catch (throwable: Throwable) {
-      when (throwable) {
-        is IOException -> NetworkError
-        is HttpException -> {
-          val code = throwable.code()
-          val errorResponse = convertErrorBody(throwable)
-          GenericError(code, errorResponse)
+      throwable.let {
+        when (it) {
+          is IOException -> NetworkError
+          is HttpException -> {
+            val code = it.code()
+            val errorResponse = convertErrorBody(it)
+            GenericError(code, errorResponse)
+          }
+          else -> GenericError(null, null)
         }
-        else -> GenericError(null, null)
       }
     }
   }
@@ -69,18 +70,18 @@ private fun convertErrorBody(
 
 data class Resource<out T>(
   val status: Status,
-  val data: T?, val message:
-  String?
+  val data: T?,
+  val message: String?
 ) {
 
-  enum class Status{
+  enum class Status {
     SUCCESS,
     ERROR,
     LOADING
   }
 
   companion object {
-    fun <T> success(data: T) : Resource<T> {
+    fun <T> success(data: T): Resource<T> {
       return Resource(SUCCESS, data, null)
     }
 
@@ -94,4 +95,5 @@ data class Resource<out T>(
   }
 }
 
-data class fetchResult(var result: Boolean)
+data class FetchResult(var isSuccess: Boolean)
+
