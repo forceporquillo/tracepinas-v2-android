@@ -6,9 +6,9 @@ package com.force.codes.tracepinas.di.module
 
 import com.force.codes.tracepinas.BuildConfig
 import com.force.codes.tracepinas.util.constants.Constants.TIMEOUT_MILLIS
-import com.force.codes.tracepinas.util.constants.Constants.TWITTER_BEARER_TOKEN
-import com.force.codes.tracepinas.util.constants.Constants.basePath
 import com.force.codes.tracepinas.data.source.ApiSource
+import com.force.codes.tracepinas.util.constants.ApiConstants.TWITTER_BEARER_TOKEN
+import com.force.codes.tracepinas.util.constants.ApiConstants.basePath
 import com.haroldadmin.cnradapter.NetworkResponseAdapterFactory
 import dagger.Module
 import dagger.Provides
