@@ -9,6 +9,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import androidx.databinding.library.baseAdapters.BR
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 
@@ -18,6 +19,7 @@ import com.force.codes.tracepinas.ui.activity.navhost.DrawableArray.getFragmentI
 import com.force.codes.tracepinas.ui.activity.navhost.NavHelper.setDelegateFragment
 import com.force.codes.tracepinas.ui.activity.navhost.NavHelper.setFragmentManagerInstance
 import com.force.codes.tracepinas.databinding.ActivityNavHostBinding
+import com.force.codes.tracepinas.ui.activity.navhost.NavHelper.clearFragmentManagerInstance
 import com.force.codes.tracepinas.ui.base.BaseActivity
 import com.force.codes.tracepinas.ui.fragment.StatisticsFragment.Companion.newInstance
 
@@ -47,8 +49,9 @@ class NavigationHostActivity : BaseActivity(), BottomItemListener {
     super.onCreate(savedInstanceState)
     binding = ActivityNavHostBinding.inflate(layoutInflater).apply {
       lifecycleOwner = this@NavigationHostActivity
-      //setVariable(, this@NavigationHostActivity)
+      setVariable(BR.activity, this@NavigationHostActivity)
       setContentView(this.root)
+      executePendingBindings()
     }
 
     if (ProcessPhoenix.isPhoenixProcess(this).not()) {
@@ -151,12 +154,12 @@ class NavigationHostActivity : BaseActivity(), BottomItemListener {
     }
   }
 
-//  override fun onDestroy() {
-//    super.onDestroy()
-//    fixInputMethodLeaks(applicationContext)
-//    clearFragmentManagerInstance()
-//    binding.unbind()
-//  }
+  override fun onDestroy() {
+    super.onDestroy()
+    fixInputMethodLeaks(applicationContext)
+    clearFragmentManagerInstance()
+    binding.unbind()
+  }
 
   private fun changeFragment(
     fragment: Fragment?,
