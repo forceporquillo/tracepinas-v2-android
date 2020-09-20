@@ -11,13 +11,21 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.force.codes.tracepinas.data.entities.PerCountry
+import com.force.codes.tracepinas.databinding.BottomBarItemBinding
 import com.force.codes.tracepinas.databinding.ListViewItemsBinding
+import com.force.codes.tracepinas.ui.activity.navhost.BottomBarItem
+import com.force.codes.tracepinas.ui.activity.navhost.BottomViewHolder
 
-class GenericAdapter<T>(
+class BaseListAdapter<T>(
   private val listener: AdapterListener,
+  list: List<T>? = null
 ) : Adapter<ViewHolder>() {
 
   private val asyncListDiffer = AsyncListDiffer(this, DiffUtilComparator<T>())
+
+  init {
+    list.let { asyncListDiffer.submitList(it) }
+  }
 
   fun submitList(list: List<T>) {
     asyncListDiffer.submitList(list)
@@ -25,18 +33,17 @@ class GenericAdapter<T>(
 
   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
     val inflater = LayoutInflater.from(parent.context)
-    val binding: ViewDataBinding
-    when {
+    val binding: ViewDataBinding = when {
       asyncListDiffer.currentList.all { it is PerCountry } -> {
-        binding = ListViewItemsBinding.inflate(inflater, parent, false)
+        ListViewItemsBinding.inflate(inflater, parent, false)
       }
-      else ->  throw ClassCastException()
+      else -> throw ClassCastException()
     }
     return ViewHolderFactory<PerCountry>(binding, listener)
   }
 
   override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-    asyncListDiffer.currentList[position]!!.let { (holder as Binder<*>).bind(it) }
+    (holder as Binder<*>).bind(asyncListDiffer.currentList[position])
   }
 
   override fun getItemCount(): Int {
