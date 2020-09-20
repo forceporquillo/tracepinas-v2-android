@@ -22,7 +22,7 @@
       android:theme="@style/AppTheme">
     <activity android:name=".ui.activity.changecountry.ChangeCountryActivity" />
     <activity
-        android:name=".ui.activity.navigation_host.NavigationHostActivity"
+        android:name=".ui.activity.navhost.NavigationHostActivity"
         android:screenOrientation="portrait">
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />
