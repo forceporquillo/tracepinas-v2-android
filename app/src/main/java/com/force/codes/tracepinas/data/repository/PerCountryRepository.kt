@@ -23,7 +23,7 @@ import javax.inject.Inject
 interface PerCountryRepository {
   fun getFromLocalDataSource(config: Config): LiveData<ResultWrapper<PagedList<PerCountry>>>
   suspend fun getFromNetworkSource() : NetworkResponse<List<PerCountry>, ErrorResponse>
-  fun makeQuery(ascending: Boolean): LiveData<ResultWrapper<List<PerCountry>>>
+  fun makeQuery(ascending: Boolean): LiveData<List<PerCountry>>
 }
 
 class PerCountryRepositoryImpl @Inject constructor(
@@ -54,10 +54,8 @@ class PerCountryRepositoryImpl @Inject constructor(
     return networkResponse
   }
 
-  override fun makeQuery(ascending: Boolean): LiveData<ResultWrapper<List<PerCountry>>> {
-    return perCountryDao.queryListViewBy(ascending).map {
-      Success(it)
-    }
+  override fun makeQuery(ascending: Boolean): LiveData<List<PerCountry>> {
+    return perCountryDao.queryListViewBy(ascending)
   }
 }
 
