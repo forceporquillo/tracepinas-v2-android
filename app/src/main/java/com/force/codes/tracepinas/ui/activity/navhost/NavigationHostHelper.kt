@@ -7,10 +7,17 @@ package com.force.codes.tracepinas.ui.activity.navhost
 import android.content.Context
 import android.graphics.Color
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.RelativeLayout
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
+import androidx.databinding.library.baseAdapters.BR
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Adapter
@@ -26,6 +33,9 @@ import com.force.codes.tracepinas.ui.fragment.MapFragment
 import com.force.codes.tracepinas.ui.fragment.NewsFragment
 import com.force.codes.tracepinas.ui.fragment.StatisticsFragment
 import com.force.codes.tracepinas.util.Utils
+import com.force.codes.tracepinas.util.adapter.Binder
+import com.force.codes.tracepinas.util.adapter.DiffUtilComparator
+import timber.log.Timber
 
 object NavHelper {
   private var SUPPORT_FRAGMENT_MANAGER: FragmentManager? = null
@@ -147,9 +157,7 @@ class BottomBar(
 
   private val bottomItems = ArrayList<BottomBarItem>()
 
-  fun setPrimary(
-    selected: Int,
-  ) {
+  fun setPrimary(selected: Int) {
     setBottomAdapter(selected)
   }
 
@@ -194,8 +202,8 @@ class BottomBar(
 data class BottomBarItem(
   var itemId: Int,
   var itemTitle: String,
-  var itemIconId: Int,
-  var itemFillIconId: Int,
+  @DrawableRes var itemIconId: Int,
+  @DrawableRes var itemFillIconId: Int,
 )
 
 private const val ITEM_SIZE = 5
@@ -203,9 +211,15 @@ private const val ITEM_SIZE = 5
 class BottomAdapter(
   private var selected: Int,
   private val itemWidth: Int,
-  private val bottomItems: ArrayList<BottomBarItem>,
+  bottomItems: ArrayList<BottomBarItem>,
   private val listener: BottomItemListener,
 ) : Adapter<BottomViewHolder>() {
+
+  private val asyncListDiffer = AsyncListDiffer(this, DiffUtilComparator<BottomBarItem>())
+
+  init {
+    asyncListDiffer.submitList(bottomItems)
+  }
 
   override fun onCreateViewHolder(
     parent: ViewGroup,
@@ -220,86 +234,71 @@ class BottomAdapter(
     holder: BottomViewHolder,
     position: Int,
   ) {
-    val item = bottomItems[position]
-
-    if (bottomItems.size != 0) {
-      setBottomViews(holder, item.itemTitle, item.itemIconId, item.itemFillIconId, item.itemId)
-      setOnClickItem(holder, item.itemId, item.itemIconId, item.itemFillIconId)
+    val item = asyncListDiffer.currentList[position]
+    holder.apply { (this as Binder<*>).bind(item)
+      scaleItemWidth(itemWidth)
+      selectedStyle(selected)
     }
-  }
-
-  private fun setBottomViews(
-    holder: BottomViewHolder,
-    title: String,
-    vararg items: Int,
-  ) {
-    holder.apply {
-      setIcon(items[0])
-      setItemTitle(title)
-      resizeItemWidth(itemWidth)
-      selectedStyle(selected, items[2], items[0], items[1])
-      return@apply
-    }
+    setOnClickItem(holder, position)
   }
 
   private fun setOnClickItem(
     holder: BottomViewHolder,
-    vararg items: Int,
+    items: Int,
   ) {
     holder.container.setOnClickListener {
-      listener.onBottomItemSelected(items[0].also { selected = it })
-      holder.selectedStyle(selected, items[0], items[1], items[2])
+      items.apply {
+        listener.onBottomItemSelected(this)
+        holder.selectedStyle(this)
+        selected = this
+      }
       notifyDataSetChanged()
     }
   }
 
   override fun getItemCount(): Int {
-    return bottomItems.size
+    return asyncListDiffer.currentList.size
   }
 }
 
 class BottomViewHolder(
   private val itemBinding: BottomBarItemBinding,
-) : ViewHolder(itemBinding.root) {
+) : ViewHolder(itemBinding.root), Binder<BottomBarItem> {
 
   val container: RelativeLayout
     get() = itemBinding.bottomItemParent
 
-  fun setItemTitle(
-    title: String?,
-  ) {
-    itemBinding.bottomBarTitle.text = title!!
-  }
+  private lateinit var bottomItems: BottomBarItem
 
-  fun setIcon(
-    iconId: Int?,
-  ) {
-    itemBinding.bottomIcon
-      .setImageResource(iconId!!)
-  }
-
-  fun selectedStyle(
-    select: Int,
-    itemId: Int,
-    itemDefIcon: Int,
-    itemFillIcon: Int,
-  ): BottomBarItemBinding {
-    return if (itemId == select) {
+  override fun bind(data: Any?) {
+    bottomItems = (data as BottomBarItem).apply {
       itemBinding.apply {
-        bottomBarTitle.setTextColor(Color.rgb(50, 121, 210))
-        bottomIcon.setImageResource(itemFillIcon)
-      }
-    } else {
-      itemBinding.apply {
-        bottomBarTitle.setTextColor(Color.rgb(191, 191, 191))
-        bottomIcon.setImageResource(itemDefIcon)
+        viewholder = this@BottomViewHolder
+        bottomItem = data
+        setVariable(BR.bottomItem, data)
+        bottomIcon.setImageResource(itemIconId)
+        executePendingBindings()
       }
     }
   }
 
-  fun resizeItemWidth(
-    itemWidth: Int,
-  ) {
+  fun selectedStyle(selectedItem: Int) {
+    bottomItems.apply {
+      if (itemId == selectedItem) {
+        itemBinding.apply {
+          bottomBarTitle.setTextColor(Color.rgb(50, 121, 210))
+          bottomIcon.setImageResource(itemFillIconId)
+        }
+      } else {
+        itemBinding.apply {
+          bottomBarTitle.setTextColor(Color.rgb(191, 191, 191))
+          bottomIcon.setImageResource(itemIconId)
+        }
+      }
+    }
+  }
+
+  fun scaleItemWidth(itemWidth: Int) {
     itemBinding.bottomParent.apply {
       layoutParams.width = itemWidth
     }
