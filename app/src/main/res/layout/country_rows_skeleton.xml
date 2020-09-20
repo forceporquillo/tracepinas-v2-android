@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Created by Force Porquillo on 9/18/20 6:56 AM
+  -->
+
+<!--
+  ~ Created by Force Porquillo on 5/15/20 5:16 PM
+  ~ Copyright (c) 2020.  All rights reserved.
+  ~ Last modified 5/15/20 3:09 PM
+  ~
+  -->
+<layout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto">
+
+<androidx.cardview.widget.CardView
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/item_card_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="2dp"
+    app:cardBackgroundColor="@color/foregroundColor2"
+    tools:viewBindingIgnore="true">
+
+  <RelativeLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:layout_marginTop="5dp"
+      android:layout_marginBottom="5dp"
+      android:padding="4dp">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/worldwide_flag_skeleton"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="@dimen/margin_5dp"
+        android:src="@color/placeholder_bg" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_10dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="2dp"
+        android:layout_toEndOf="@id/worldwide_flag_skeleton"
+        tools:ignore="RelativeOverlap">
+
+      <View
+          android:id="@+id/skeleton_country"
+          android:layout_width="200dp"
+          android:layout_marginEnd="50dp"
+          android:layout_height="14dp"
+          android:background="@color/placeholder_bg" />
+
+      <View
+          android:id="@+id/skeleton_body"
+          android:layout_width="match_parent"
+          android:layout_marginEnd="50dp"
+          android:layout_height="7dp"
+          android:layout_below="@id/skeleton_country"
+          android:layout_marginTop="4dp"
+          android:layout_marginBottom="2dp"
+          android:background="@color/placeholder_bg" />
+
+      <View
+          android:id="@+id/skeleton_body_2"
+          android:layout_width="match_parent"
+          android:layout_marginEnd="50dp"
+          android:layout_height="7dp"
+          android:layout_below="@id/skeleton_body"
+          android:layout_marginBottom="2dp"
+          android:background="@color/placeholder_bg" />
+
+      <View
+          android:layout_width="180dp"
+          android:layout_height="7dp"
+          android:layout_below="@id/skeleton_body_2"
+          android:background="@color/placeholder_bg" />
+    </RelativeLayout>
+
+  </RelativeLayout>
+</androidx.cardview.widget.CardView>
+
+</layout>
