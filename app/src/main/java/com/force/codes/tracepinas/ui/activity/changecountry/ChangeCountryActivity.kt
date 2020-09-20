@@ -66,7 +66,7 @@ class ChangeCountryActivity : BaseActivity(), AdapterListener {
 
   override fun onStart() {
     super.onStart()
-    activityViewModel.orderListViewBy(true).observe(this, { list ->
+    activityViewModel.data.observe(this, { list ->
       Timber.e("list size: ${list.size}")
       _adapter.submitList(list.also { _list.addAll(it) })
       binding.listRecycler.apply {
