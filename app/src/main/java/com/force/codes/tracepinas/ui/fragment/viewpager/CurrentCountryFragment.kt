@@ -12,16 +12,15 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.RelativeLayout
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.asLiveData
 import com.force.codes.tracepinas.R
-import com.force.codes.tracepinas.callback.ListActivityListener
 import com.force.codes.tracepinas.databinding.FragmentCountryBinding
-import com.force.codes.tracepinas.ui.activity.list_view.ChangeCountryActivity
+import com.force.codes.tracepinas.ui.activity.changecountry.ChangeCountryActivity
 import com.force.codes.tracepinas.ui.base.BaseFragment
-import com.force.codes.tracepinas.util.DataStoreUtil
 import com.force.codes.tracepinas.util.Utils
 import com.force.codes.tracepinas.util.Utils.dpToPx
+import com.force.codes.tracepinas.util.sharedpref.DataStoreUtil
+import timber.log.Timber
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
@@ -32,18 +31,12 @@ private const val GRID_COLUMNS = 2
 class CurrentCountryFragment : BaseFragment(R.layout.fragment_country), ListActivityListener {
   private var binding: FragmentCountryBinding? = null
 
-  override fun onCreate(savedInstanceState: Bundle?) {
-    super.onCreate(savedInstanceState)
-    arguments?.let {
-
-    }
-  }
-
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
     binding = FragmentCountryBinding.bind(view).apply {
       lifecycleOwner = this@CurrentCountryFragment
       listCallback = this@CurrentCountryFragment
+      countryFrag = this@CurrentCountryFragment
     }
     setGridBoxAtRuntime(view)
   }
@@ -61,17 +54,14 @@ class CurrentCountryFragment : BaseFragment(R.layout.fragment_country), ListActi
     }
   }
 
-  private fun getBoxWithAtRuntime(
-    vararg width: Int,
-  ): Int {
+  private fun getBoxWithAtRuntime(vararg width: Int): Int {
     return width[0] / GRID_COLUMNS - dpToPx(context!!, width[1], true)
   }
 
-  override fun onStart() {
-    super.onStart()
-    DataStoreUtil(context!!).getStoredCountry.asLiveData().observe(this, {
-      binding!!.spinnerTitle.text = it
-    })
+  override fun onResume() {
+    super.onResume()
+    DataStoreUtil(context!!).getStoredCountry.asLiveData()
+      .observe(this, { binding!!.spinnerTitle.text = it })
   }
 
   private val boxLayout: Array<RelativeLayout>
@@ -99,7 +89,12 @@ class CurrentCountryFragment : BaseFragment(R.layout.fragment_country), ListActi
       }
   }
 
-  override fun onStartListViewActivity(view: View?) {
+  override fun onStartListViewActivity() {
     startActivity(Intent(activity, ChangeCountryActivity::class.java))
   }
 }
+
+internal interface ListActivityListener {
+  fun onStartListViewActivity()
+}
+
