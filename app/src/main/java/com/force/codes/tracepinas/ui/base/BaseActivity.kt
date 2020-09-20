@@ -4,6 +4,7 @@
 
 package com.force.codes.tracepinas.ui.base
 
+import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import android.view.WindowManager

@@ -2,15 +2,7 @@
  * Created by Force Porquillo on 9/15/20 12:46 AM
  */
 
-/*
- * Created by Force Porquillo on 9/10/20 11:14 PM
- */
-
-/*
- * Created by Force Porquillo on 9/2/20 5:11 AM
- */
-
-package com.force.codes.tracepinas.ui.activity.navigation_host
+package com.force.codes.tracepinas.ui.activity.navhost
 
 import android.content.Context
 import android.content.Intent
@@ -20,13 +12,9 @@ import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 
-import com.force.codes.tracepinas.ui.activity.navhost.BottomBar
-import com.force.codes.tracepinas.ui.activity.navhost.BottomBarItem
-import com.force.codes.tracepinas.ui.activity.navhost.BottomItemListener
 import com.force.codes.tracepinas.ui.activity.navhost.DrawableArray.DRAWABLE_ICONS
 import com.force.codes.tracepinas.ui.activity.navhost.DrawableArray.FRAGMENT_STACKS
 import com.force.codes.tracepinas.ui.activity.navhost.DrawableArray.getFragmentIds
-import com.force.codes.tracepinas.ui.activity.navhost.NavHelper.clearFragmentManagerInstance
 import com.force.codes.tracepinas.ui.activity.navhost.NavHelper.setDelegateFragment
 import com.force.codes.tracepinas.ui.activity.navhost.NavHelper.setFragmentManagerInstance
 import com.force.codes.tracepinas.databinding.ActivityNavHostBinding
@@ -40,17 +28,20 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
+import java.lang.IndexOutOfBoundsException
 
 private const val LAST_NAV_INDEX = "LAST_NAV_INDEX"
 private const val LAST_KEY_INDEX = "LAST_KEY_INDEX"
 private const val FRAGMENT_STATE = "FRAGMENT_STATE"
 private const val START_INDEX = 0
 
-
 class NavigationHostActivity : BaseActivity(), BottomItemListener {
 
   private lateinit var binding: ActivityNavHostBinding
+
   private lateinit var fragment: Fragment
+
+  private lateinit var bottomBar: BottomBar
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -61,7 +52,7 @@ class NavigationHostActivity : BaseActivity(), BottomItemListener {
     }
 
     if (ProcessPhoenix.isPhoenixProcess(this).not()) {
-      val bottomBar = BottomBar(binding.bottomBar.recyclerView, this, this)
+      bottomBar = BottomBar(binding.bottomBar.recyclerView, this, this)
       setBottomBar(bottomBar, savedInstanceState?.getInt(LAST_NAV_INDEX))
       binding.bottomBar.bottomParentContainer.visibility = View.VISIBLE
     }
@@ -81,14 +72,10 @@ class NavigationHostActivity : BaseActivity(), BottomItemListener {
 
     if (savedInstanceState == null) {
       setDelegateFragment(newInstance()
-          .also { fragment = it },
-          START_INDEX.also { KEY_INDEX[it] }
+        .also { fragment = it },
+        START_INDEX.also { KEY_INDEX[it] }
       )
     }
-  }
-
-  override fun onResume() {
-    super.onResume()
 
     CoroutineScope(Dispatchers.IO).launch {
       delay(1000)
@@ -103,29 +90,33 @@ class NavigationHostActivity : BaseActivity(), BottomItemListener {
     }
   }
 
-  override fun onBottomItemSelected(
-    index: Int,
-  ) {
+  override fun onBottomItemSelected(index: Int) {
     if (CURRENT_INDEX != index) {
-      FRAGMENT_STACKS[index.apply { CURRENT_INDEX = this }]
+      try {
+        FRAGMENT_STACKS[index.apply { CURRENT_INDEX = this }]
           .apply {
             changeFragment(this, index)!!
-                .also { fragment = it }
+              .also { fragment = it }
           }
+      } catch (e: IndexOutOfBoundsException) {
+        Timber.e(e)
+      }
     }
   }
 
-  private fun setBottomBar(
-    bottomBar: BottomBar,
-    index: Int?,
-  ) {
-    bottomBar.run {
+  private fun setBottomBar(bottomBar: BottomBar, index: Int?) {
+    bottomBar.apply {
       for (item in addDrawables(applicationContext)) {
         addBottomItem(item)
       }
       setPrimary(index ?: 0)
     }
   }
+
+  /**
+   * Save last bottom navigation index and retain instance
+   * of fragment. Otherwise, restart app if throws exception.
+   */
 
   override fun onRestoreInstanceState(savedInstanceState: Bundle) {
     super.onRestoreInstanceState(savedInstanceState)
@@ -143,9 +134,7 @@ class NavigationHostActivity : BaseActivity(), BottomItemListener {
     }
   }
 
-  override fun onSaveInstanceState(
-    outState: Bundle,
-  ) {
+  override fun onSaveInstanceState(outState: Bundle) {
     super.onSaveInstanceState(outState)
     outState.apply {
       putInt(LAST_NAV_INDEX, CURRENT_INDEX)
@@ -155,19 +144,19 @@ class NavigationHostActivity : BaseActivity(), BottomItemListener {
 
     if (fragment.isAdded) {
       supportFragmentManager.putFragment(
-          outState,
-          FRAGMENT_STATE,
-          fragment
+        outState,
+        FRAGMENT_STATE,
+        fragment
       )
     }
   }
 
-  override fun onDestroy() {
-    super.onDestroy()
-    fixInputMethodLeaks(applicationContext)
-    clearFragmentManagerInstance()
-    binding.unbind()
-  }
+//  override fun onDestroy() {
+//    super.onDestroy()
+//    fixInputMethodLeaks(applicationContext)
+//    clearFragmentManagerInstance()
+//    binding.unbind()
+//  }
 
   private fun changeFragment(
     fragment: Fragment?,
@@ -190,20 +179,20 @@ class NavigationHostActivity : BaseActivity(), BottomItemListener {
 
       try {
         inputMethodManager = context?.applicationContext
-            ?.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+          ?.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
       } catch (t: Throwable) {
         Timber.e(t)
       }
 
       inputMethodManager ?: {
         val stringArray: Array<String> = arrayOf(
-            "mCurRootView", "mServedView", "mNextServedView"
+          "mCurRootView", "mServedView", "mNextServedView"
         )
         for (i in 0..KEY_INDEX.size) {
           try {
             val declaredField = inputMethodManager?.javaClass
-                ?.getDeclaredField(stringArray[i])
-                ?: continue
+              ?.getDeclaredField(stringArray[i])
+              ?: continue
 
             if (declaredField.isAccessible.not()) {
               declaredField.isAccessible = true
@@ -230,11 +219,11 @@ class NavigationHostActivity : BaseActivity(), BottomItemListener {
     ): Array<BottomBarItem?> {
       val bottomItems = arrayOfNulls<BottomBarItem>(5)
       for (i in DRAWABLE_ICONS.indices) {
-        for (j in DRAWABLE_ICONS[0].indices) {
+        for (j in 0..i) {
           if (j == 0) {
             bottomItems[i] = BottomBarItem(
-                i, getFragmentIds(context)[i], DRAWABLE_ICONS[i][j],
-                DRAWABLE_ICONS[i][START_INDEX + 1]
+              i, getFragmentIds(context)[i],
+              DRAWABLE_ICONS[i][j], DRAWABLE_ICONS[i][START_INDEX + 1]
             )
           }
         }
@@ -243,3 +232,4 @@ class NavigationHostActivity : BaseActivity(), BottomItemListener {
     }
   }
 }
+

@@ -11,8 +11,4 @@ abstract class BaseFragment(
   fragmentCountry: Int
 ) : DaggerFragment(fragmentCountry) {
 
-  val dataStoreUtil: DataStoreUtil by lazy {
-    DataStoreUtil(context!!)
-  }
-
 }
