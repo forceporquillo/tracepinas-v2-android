@@ -9,8 +9,12 @@
     <data>
 
         <variable
-            name="bottomBar"
-            type="com.force.codes.tracepinas.ui.activity.navhost.BottomAdapter" />
+            name="viewholder"
+            type="com.force.codes.tracepinas.ui.activity.navhost.BottomViewHolder"
+            />
+        <variable
+            name="bottomItem"
+            type="com.force.codes.tracepinas.ui.activity.navhost.BottomBarItem" />
     </data>
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -38,6 +42,7 @@
                 android:layout_marginTop="@dimen/margin_5dp" />
 
             <TextView
+                android:text="@{bottomItem.itemTitle}"
                 android:id="@+id/bottom_bar_title"
                 style="@style/bottom_bar_text"
                 android:layout_width="wrap_content"
@@ -45,7 +50,7 @@
                 android:layout_below="@id/bottom_icon"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="-2dp"
-                android:fontFamily="@font/poppin_regular" />
+                android:fontFamily="@font/montserrat" />
         </RelativeLayout>
     </RelativeLayout>
 </layout>

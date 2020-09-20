@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Created by Force Porquillo on 9/2/20 6:47 AM
+  -->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/red"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.fragment.NewsFragment"
+    >
+
+  <!-- TODO: Update blank fragment layout -->
+  <TextView
+      android:id="@+id/test"
+      android:fontFamily="@font/poppin_bold"
+      android:textSize="40sp"
+      android:gravity="center"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:text="@string/hello_blank_fragment"
+      />
+
+</RelativeLayout>

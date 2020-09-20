@@ -21,7 +21,7 @@
           android:foreground="?attr/selectableItemBackground"
           app:cardBackgroundColor="@color/grayScale"
           app:cardCornerRadius="10dp"
-          android:onClick="@{(v) -> listCallback.onStartListViewActivity(v)}"
+          android:onClick="@{(v) -> listCallback.onStartListViewActivity()}"
           android:id="@+id/card_spinner"
           android:layout_width="match_parent"
           android:layout_height="45dp"
@@ -37,7 +37,6 @@
               android:layout_marginStart="20dp"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              android:text="@{}"
               android:fontFamily="@font/poppin_regular"
               android:textColor="@color/white"
               android:textSize="16sp"/>
@@ -448,7 +447,7 @@
 
     <variable
         name="listCallback"
-        type="com.force.codes.tracepinas.util.Listener.ListActivityListener"/>
+        type="com.force.codes.tracepinas.ui.fragment.viewpager.ListActivityListener"/>
 
     <variable
         name="countryFrag"
