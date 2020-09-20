@@ -17,7 +17,7 @@ import com.force.codes.tracepinas.databinding.ActivityListViewBinding
 import com.force.codes.tracepinas.di.factory.ViewModelProviderFactory
 import com.force.codes.tracepinas.ui.base.BaseActivity
 import com.force.codes.tracepinas.util.adapter.AdapterListener
-import com.force.codes.tracepinas.util.adapter.GenericAdapter
+import com.force.codes.tracepinas.util.adapter.BaseListAdapter
 import com.force.codes.tracepinas.util.views.ItemDecoration
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -37,7 +37,7 @@ class ChangeCountryActivity : BaseActivity(), AdapterListener {
     ViewModelProvider(this, factory).get(ChangeCountryViewModel::class.java)
   }
 
-  private val _adapter = GenericAdapter<PerCountry>(this)
+  private val _adapter = BaseListAdapter<PerCountry>(this)
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -57,8 +57,17 @@ class ChangeCountryActivity : BaseActivity(), AdapterListener {
         setDisplayShowTitleEnabled(false)
       }
     }
+  }
 
-    activityViewModel.forceUpdate().observe(this, { list ->
+  override fun onDestroy() {
+    super.onDestroy()
+    binding.unbind()
+  }
+
+  override fun onStart() {
+    super.onStart()
+    activityViewModel.orderListViewBy(true).observe(this, { list ->
+      Timber.e("list size: ${list.size}")
       _adapter.submitList(list.also { _list.addAll(it) })
       binding.listRecycler.apply {
         layoutManager = LinearLayoutManager(this@ChangeCountryActivity)
@@ -73,19 +82,8 @@ class ChangeCountryActivity : BaseActivity(), AdapterListener {
     })
   }
 
-  override fun onDestroy() {
-    super.onDestroy()
-    binding.unbind()
-  }
-
   override fun onGetAdapterPosition(position: Int) {
-    lifecycleScope.launch {
-      _list[position].country.let {
-        dataStoreUtil.storePrimaryCountry(it)
-      }
-      val item = _list[position].country
-      Timber.e("Selected country $item")
-    }
+    lifecycleScope.launch { dataStoreUtil.storePrimaryCountry(_list[position].country) }
     finish()
   }
 
@@ -111,17 +109,13 @@ class ChangeCountryActivity : BaseActivity(), AdapterListener {
         }
       }
     }
-    activityViewModel.apply {
-      orderListViewBy(order)
-      observeChanges()
-    }
-
+    activityViewModel.apply { observeChanges(order) }
     binding.invalidateAll()
     return super.onOptionsItemSelected(item)
   }
 
-  private fun observeChanges() {
-    activityViewModel.data.observe(this, { _adapter.submitList(it) })
+  private fun observeChanges(order: Boolean) {
+    activityViewModel.orderListViewBy(order).observe(this, { _adapter.submitList(it) })
   }
 
   override fun onCreateOptionsMenu(
