@@ -2,10 +2,15 @@
   <dictionary name="fporq">
     <words>
       <w>bottombar</w>
+      <w>csse</w>
+      <w>ecdc</w>
+      <w>moshi</w>
       <w>pinas</w>
       <w>poppin</w>
       <w>porquillo</w>
+      <w>samsung</w>
       <w>tracepinas</w>
+      <w>viewholder</w>
     </words>
   </dictionary>
 </component>
