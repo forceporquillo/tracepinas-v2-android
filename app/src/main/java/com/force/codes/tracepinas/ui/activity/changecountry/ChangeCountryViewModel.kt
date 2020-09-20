@@ -4,18 +4,14 @@
 
 package com.force.codes.tracepinas.ui.activity.changecountry
 
-import androidx.annotation.MainThread
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import com.force.codes.tracepinas.data.entities.PerCountry
 import com.force.codes.tracepinas.data.repository.PerCountryRepository
 import com.force.codes.tracepinas.ui.base.BaseViewModel
-import com.force.codes.tracepinas.util.ResultWrapper
-import com.force.codes.tracepinas.util.ResultWrapper.Success
-import com.haroldadmin.cnradapter.NetworkResponse
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 class ChangeCountryViewModel
@@ -28,22 +24,18 @@ class ChangeCountryViewModel
 
   private fun emit(ascending: Boolean = true): MutableLiveData<List<PerCountry>> {
     viewModelScope.launch {
-      val queryResponse = countryRepository.makeQuery(ascending).value
-      if (queryResponse is Success) {
-        viewModelScope.launch {
-         _data.value = queryResponse.body
-        }
-      }
+      val queryResponse = countryRepository.makeQuery(ascending)
+      _data.value = queryResponse.value
     }
     return _data
   }
 
-  @MainThread
   fun orderListViewBy(ascending: Boolean): MutableLiveData<List<PerCountry>> {
     return emit(ascending)
   }
 
   init {
+    Timber.e("emit")
     emit(true)
   }
 }
