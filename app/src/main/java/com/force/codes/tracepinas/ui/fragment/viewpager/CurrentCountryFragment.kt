@@ -2,10 +2,6 @@
  * Created by Force Porquillo on 9/13/20 2:22 PM
  */
 
-/*
- * Created by Force Porquillo on 9/3/20 12:08 PM
- */
-
 package com.force.codes.tracepinas.ui.fragment.viewpager
 
 import android.content.Intent
