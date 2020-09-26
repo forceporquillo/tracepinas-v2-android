@@ -87,7 +87,8 @@ object NavHelper {
         fragmentTransaction.show(f)
       } ?: run {
         fragmentTransaction.add(
-          id.fragment_container, it.apply {
+          id.fragment_container,
+          it.apply {
             delegateFragment[1] = this
           }, fragmentTag
         )
@@ -106,9 +107,10 @@ object NavHelper {
    * clear all object instances with
    * attached context to avoid leaks.
    */
-  fun clearFragmentManagerInstance() {
-    SUPPORT_FRAGMENT_MANAGER = null
-  }
+  val clearFragmentInstance: () -> Unit
+    get() = {
+      SUPPORT_FRAGMENT_MANAGER = null
+    }
 }
 
 object DrawableArray {
@@ -125,7 +127,7 @@ object DrawableArray {
     )
   }
 
-  val DRAWABLE_ICONS = arrayOf(
+  @DrawableRes val DRAWABLE_ICONS = arrayOf(
     intArrayOf(drawable.ic_stats, drawable.ic_fill_stats),
     intArrayOf(drawable.ic_news, drawable.ic_fill_news),
     intArrayOf(drawable.ic_map, drawable.ic_fill_map),
@@ -235,7 +237,8 @@ class BottomAdapter(
     position: Int,
   ) {
     val item = asyncListDiffer.currentList[position]
-    holder.apply { (this as Binder<*>).bind(item)
+    holder.apply {
+      (this as Binder<*>).bind(item)
       scaleItemWidth(itemWidth)
       selectedStyle(selected)
     }
