@@ -32,194 +32,194 @@ import java.util.*
  * @author Force Porquillo
  */
 object Utils {
-    @JvmStatic
-    fun getLongDate(
-        milliseconds: Long
-    ): String {
-        val formatter = formatDate(
-            "EEE, dd MMM yyyy hh:mm:ss aaa"
+  @JvmStatic
+  fun getLongDate(
+      milliseconds: Long
+  ): String {
+    val formatter = formatDate(
+        "EEE, dd MMM yyyy hh:mm:ss aaa"
+    )
+    val calendar = Calendar.getInstance()
+    calendar.timeInMillis = milliseconds
+    return formatter.format(
+        calendar.time
+    )
+  }
+
+  @JvmStatic
+  fun formatNumber(
+      number: String
+  ): String {
+    if (number.isNotEmpty()) {
+      val value = number.toDouble()
+      return NumberFormat.getNumberInstance(
+          Locale.US
+      )
+        .format(value)
+    }
+    return "0"
+  }
+
+  @JvmStatic
+  val sDKInt: Int
+    get() = VERSION.SDK_INT
+
+  @JvmStatic
+  fun requiresSdkInt(
+      version: Int
+  ): Boolean {
+    return sDKInt > version
+  }
+
+  @JvmStatic
+  val deviceModel: String
+    get() = Build.MODEL
+
+  /**
+   * @return thread count by multiplying
+   * device processors by 2
+   */
+  @JvmStatic
+  val threadCount: Int
+    get() = Runtime.getRuntime()
+      .availableProcessors() * 2
+
+  @JvmStatic
+  val date: String
+    get() {
+      val calendar = Calendar
+        .getInstance().time
+
+      @SuppressLint("SimpleDateFormat")
+      val dateFormat = formatDate(
+          "yyyy-mm-dd"
+      )
+      return dateFormat.format(calendar)
+    }
+
+  /**
+   * A helper method to manually align view
+   * margin at runtime. This converts dp to px.
+   *
+   * @return pixel based on device dpi and resolution.
+   */
+  @JvmStatic
+  fun dpToPx(
+      context: Context?,
+      marginWidth: Int?,
+      useComplexUnit: Boolean?
+  ): Int {
+    val resources = context!!.resources
+    useComplexUnit!!.let {
+      if (it) {
+        return TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP,
+            marginWidth!!.toFloat(),
+            resources.displayMetrics
         )
-        val calendar = Calendar.getInstance()
-        calendar.timeInMillis = milliseconds
-        return formatter.format(
-            calendar.time
+          .toInt()
+      }
+      return resources
+        .displayMetrics
+        .widthPixels / marginWidth!!
+    }
+  }
+
+  @SuppressLint("SimpleDateFormat")
+  @JvmStatic
+  fun formatDate(
+      format: String?
+  ): SimpleDateFormat {
+    return SimpleDateFormat(format)
+  }
+
+  @JvmStatic
+  val todayDate: Date
+    get() = Date()
+
+  @JvmStatic
+  fun animationUtils(
+      canAnimate: Boolean,
+      context: Context?
+  ): Animation {
+    return if (canAnimate) {
+      AnimationUtils
+        .loadAnimation(
+            context, R.anim.pop_up_slide_down
         )
-    }
+    } else AnimationUtils
+      .loadAnimation(
+          context, R.anim.pop_up_slide_up
+      )
+  }
 
-    @JvmStatic
-    fun formatNumber(
-        number: String
-    ): String {
-        if (number.isNotEmpty()) {
-            val value = number.toDouble()
-            return NumberFormat.getNumberInstance(
-                Locale.US
+  @JvmStatic
+  fun getDeviceWidth(
+      context: Context?
+  ): Int {
+    return context!!
+      .resources
+      .displayMetrics
+      .widthPixels
+  }
+
+  @JvmStatic
+  fun customAnim(
+      context: Context?,
+      pushAnim: Int,
+      pullAnim: Int
+  ): ActivityOptions {
+    return ActivityOptions
+      .makeCustomAnimation(
+          context,
+          pushAnim,
+          pullAnim
+      )
+  }
+
+  fun getResColorId(
+      context: Context?,
+      colorId: Int
+  ): Int {
+    return ContextCompat.getColor(context!!, colorId)
+  }
+
+  @RequiresApi(api = VERSION_CODES.N)
+  fun toPercent(
+      num: Double,
+      total: Double
+  ): String {
+    val df = DecimalFormat("##%")
+    val percent = num / total
+    return df.format(percent)
+  }
+
+  fun spannableString(
+      color: String?,
+      string: String
+  ): SpannableString {
+    val spannableString = SpannableString(string)
+    val colorSpan: ForegroundColorSpan
+    when (color) {
+        "BLUE" -> {
+            colorSpan = ForegroundColorSpan(
+                Color.rgb(50, 120, 210)
             )
-                .format(value)
-        }
-        return "0"
-    }
-
-    @JvmStatic
-    val sDKInt: Int
-        get() = VERSION.SDK_INT
-
-    @JvmStatic
-    fun requiresSdkInt(
-        version: Int
-    ): Boolean {
-        return sDKInt > version
-    }
-
-    @JvmStatic
-    val deviceModel: String
-        get() = Build.MODEL
-
-    /**
-     * @return thread count by multiplying
-     * device processors by 2
-     */
-    @JvmStatic
-    val threadCount: Int
-        get() = Runtime.getRuntime()
-            .availableProcessors() * 2
-
-    @JvmStatic
-    val date: String
-        get() {
-            val calendar = Calendar
-                .getInstance().time
-
-            @SuppressLint("SimpleDateFormat")
-            val dateFormat = formatDate(
-                "yyyy-mm-dd"
+            spannableString.setSpan(
+                colorSpan, 1,
+                string.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
             )
-            return dateFormat.format(calendar)
         }
-
-    /**
-     * A helper method to manually align view
-     * margin at runtime. This converts dp to px.
-     *
-     * @return pixel based on device dpi and resolution.
-     */
-    @JvmStatic
-    fun dpToPx(
-        context: Context?,
-        marginWidth: Int?,
-        useComplexUnit: Boolean?
-    ): Int {
-        val resources = context!!.resources
-        useComplexUnit!!.let {
-            if (it) {
-                return TypedValue.applyDimension(
-                    TypedValue.COMPLEX_UNIT_DIP,
-                    marginWidth!!.toFloat(),
-                    resources.displayMetrics
-                )
-                    .toInt()
-            }
-            return resources
-                .displayMetrics
-                .widthPixels / marginWidth!!
+        "RED" -> {
+            colorSpan = ForegroundColorSpan(
+                Color.rgb(255, 93, 93)
+            )
+            spannableString.setSpan(
+                colorSpan, 1,
+                string.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
         }
     }
-
-    @SuppressLint("SimpleDateFormat")
-    @JvmStatic
-    fun formatDate(
-        format: String?
-    ): SimpleDateFormat {
-        return SimpleDateFormat(format)
-    }
-
-    @JvmStatic
-    val todayDate: Date
-        get() = Date()
-
-    @JvmStatic
-    fun animationUtils(
-        canAnimate: Boolean,
-        context: Context?
-    ): Animation {
-        return if (canAnimate) {
-            AnimationUtils
-                .loadAnimation(
-                    context, R.anim.pop_up_slide_down
-                )
-        } else AnimationUtils
-            .loadAnimation(
-                context, R.anim.pop_up_slide_up
-            )
-    }
-
-    @JvmStatic
-    fun getDeviceWidth(
-        context: Context?
-    ): Int {
-        return context!!
-            .resources
-            .displayMetrics
-            .widthPixels
-    }
-
-    @JvmStatic
-    fun customAnim(
-        context: Context?,
-        pushAnim: Int,
-        pullAnim: Int
-    ): ActivityOptions {
-        return ActivityOptions
-            .makeCustomAnimation(
-                context,
-                pushAnim,
-                pullAnim
-            )
-    }
-
-    fun getResColorId(
-        context: Context?,
-        colorId: Int
-    ) : Int {
-        return ContextCompat.getColor(context!!, colorId)
-    }
-
-    @RequiresApi(api = VERSION_CODES.N)
-    fun toPercent(
-        num: Double,
-        total: Double
-    ): String {
-        val df = DecimalFormat("##%")
-        val percent = num / total
-        return df.format(percent)
-    }
-
-    fun spannableString(
-        color: String?,
-        string: String
-    ): SpannableString {
-        val spannableString = SpannableString(string)
-        val colorSpan: ForegroundColorSpan
-        when (color) {
-            "BLUE" -> {
-                colorSpan = ForegroundColorSpan(
-                    Color.rgb(50, 120, 210)
-                )
-                spannableString.setSpan(
-                    colorSpan, 1,
-                    string.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-                )
-            }
-            "RED" -> {
-                colorSpan = ForegroundColorSpan(
-                    Color.rgb(255, 93, 93)
-                )
-                spannableString.setSpan(
-                    colorSpan, 1,
-                    string.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-                )
-            }
-        }
-        return spannableString
-    }
+    return spannableString
+  }
 }
