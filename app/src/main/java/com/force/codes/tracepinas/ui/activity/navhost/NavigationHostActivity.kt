@@ -19,7 +19,7 @@ import com.force.codes.tracepinas.ui.activity.navhost.DrawableArray.getFragmentI
 import com.force.codes.tracepinas.ui.activity.navhost.NavHelper.setDelegateFragment
 import com.force.codes.tracepinas.ui.activity.navhost.NavHelper.setFragmentManagerInstance
 import com.force.codes.tracepinas.databinding.ActivityNavHostBinding
-import com.force.codes.tracepinas.ui.activity.navhost.NavHelper.clearFragmentManagerInstance
+import com.force.codes.tracepinas.ui.activity.navhost.NavHelper.clearFragmentInstance
 import com.force.codes.tracepinas.ui.base.BaseActivity
 import com.force.codes.tracepinas.ui.fragment.StatisticsFragment.Companion.newInstance
 
@@ -31,6 +31,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.lang.IndexOutOfBoundsException
+import java.lang.NumberFormatException
 
 private const val LAST_NAV_INDEX = "LAST_NAV_INDEX"
 private const val LAST_KEY_INDEX = "LAST_KEY_INDEX"
@@ -43,31 +44,49 @@ class NavigationHostActivity : BaseActivity(), BottomItemListener {
 
   private lateinit var fragment: Fragment
 
-  private lateinit var bottomBar: BottomBar
+  private lateinit var _bottomBar: BottomBar
+
+  companion object {
+    private val KEY_INDEX = IntArray(2)
+    private var CURRENT_INDEX = 0
+
+    private fun addDrawables(
+      context: Context,
+    ): Array<BottomBarItem?> {
+      val bottomItems = arrayOfNulls<BottomBarItem>(5)
+      for (i in DRAWABLE_ICONS.indices) {
+        for (j in 0..i) {
+          if (j == 0) {
+            bottomItems[i] = BottomBarItem(
+              i, getFragmentIds(context)[i],
+              DRAWABLE_ICONS[i][j], DRAWABLE_ICONS[i][START_INDEX + 1]
+            )
+          }
+        }
+      }
+      return bottomItems
+    }
+  }
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    binding = ActivityNavHostBinding.inflate(layoutInflater).apply {
-      lifecycleOwner = this@NavigationHostActivity
-      setVariable(BR.activity, this@NavigationHostActivity)
-      setContentView(this.root)
-      executePendingBindings()
-    }
+    binding = ActivityNavHostBinding.inflate(layoutInflater)
+      .apply {
+        lifecycleOwner = this@NavigationHostActivity
+        setVariable(BR.activity, this@NavigationHostActivity)
+        setContentView(root)
+        executePendingBindings()
+      }
 
-    if (ProcessPhoenix.isPhoenixProcess(this).not()) {
-      bottomBar = BottomBar(binding.bottomBar.recyclerView, this, this)
-      setBottomBar(bottomBar, savedInstanceState?.getInt(LAST_NAV_INDEX))
-      binding.bottomBar.bottomParentContainer.visibility = View.VISIBLE
-    }
-
-    CoroutineScope(Dispatchers.IO).launch {
-      delay(100)
-      withContext(Dispatchers.Main) {
-//        if (checkIfFirstRun) {
-//          lifecycleScope.launch {
-//            dataStoreUtil.storePrimaryCountry("Philippines")
-//          }
-//        }
+    if (!ProcessPhoenix.isPhoenixProcess(this)) {
+      binding.bottomBar.apply {
+        _bottomBar = BottomBar(
+          recyclerView,
+          this@NavigationHostActivity,
+          this@NavigationHostActivity
+        )
+        setBottomBar(savedInstanceState?.getInt(LAST_NAV_INDEX), _bottomBar)
+        bottomParentContainer.visibility = View.VISIBLE
       }
     }
 
@@ -80,12 +99,13 @@ class NavigationHostActivity : BaseActivity(), BottomItemListener {
       )
     }
 
-    CoroutineScope(Dispatchers.IO).launch {
-      delay(1000)
-      withContext(Dispatchers.Main) {
-        if (firstRun.get()) {
+    // triggers when app is first installed in the device
+    if (firstRun.get()) {
+      CoroutineScope(Dispatchers.IO).launch {
+        delay(1000)
+        withContext(Dispatchers.Main) {
           lifecycleScope.launch {
-            Timber.e("Thread Launch")
+            // store default country
             dataStoreUtil.storePrimaryCountry("Philippines")
           }
         }
@@ -101,13 +121,13 @@ class NavigationHostActivity : BaseActivity(), BottomItemListener {
             changeFragment(this, index)!!
               .also { fragment = it }
           }
-      } catch (e: IndexOutOfBoundsException) {
-        Timber.e(e)
+      } catch (_: IndexOutOfBoundsException) {
+        forceRestart()
       }
     }
   }
 
-  private fun setBottomBar(bottomBar: BottomBar, index: Int?) {
+  private fun setBottomBar(index: Int?, bottomBar: BottomBar) {
     bottomBar.apply {
       for (item in addDrawables(applicationContext)) {
         addBottomItem(item)
@@ -118,9 +138,8 @@ class NavigationHostActivity : BaseActivity(), BottomItemListener {
 
   /**
    * Save last bottom navigation index and retain instance
-   * of fragment. Otherwise, restart app if throws exception.
+   * of a fragment. Otherwise, restart app if throws exception.
    */
-
   override fun onRestoreInstanceState(savedInstanceState: Bundle) {
     super.onRestoreInstanceState(savedInstanceState)
     savedInstanceState.let {
@@ -131,10 +150,14 @@ class NavigationHostActivity : BaseActivity(), BottomItemListener {
       } catch (e: IllegalArgumentException) {
         Timber.e(e)
       } finally {
-        val intent = Intent(this, NavigationHostActivity::class.java)
-        ProcessPhoenix.triggerRebirth(this, intent)
+        forceRestart()
       }
     }
+  }
+
+  private fun forceRestart() {
+    val intent = Intent(this, NavigationHostActivity::class.java)
+    ProcessPhoenix.triggerRebirth(this, intent)
   }
 
   override fun onSaveInstanceState(outState: Bundle) {
@@ -157,7 +180,7 @@ class NavigationHostActivity : BaseActivity(), BottomItemListener {
   override fun onDestroy() {
     super.onDestroy()
     fixInputMethodLeaks(applicationContext)
-    clearFragmentManagerInstance()
+    clearFragmentInstance
     binding.unbind()
   }
 
@@ -210,28 +233,6 @@ class NavigationHostActivity : BaseActivity(), BottomItemListener {
           }
         }
       }
-    }
-  }
-
-  companion object {
-    private val KEY_INDEX = IntArray(2)
-    private var CURRENT_INDEX = 0
-
-    private fun addDrawables(
-      context: Context,
-    ): Array<BottomBarItem?> {
-      val bottomItems = arrayOfNulls<BottomBarItem>(5)
-      for (i in DRAWABLE_ICONS.indices) {
-        for (j in 0..i) {
-          if (j == 0) {
-            bottomItems[i] = BottomBarItem(
-              i, getFragmentIds(context)[i],
-              DRAWABLE_ICONS[i][j], DRAWABLE_ICONS[i][START_INDEX + 1]
-            )
-          }
-        }
-      }
-      return bottomItems
     }
   }
 }
