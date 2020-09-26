@@ -6,7 +6,7 @@ package com.force.codes.tracepinas.di.module
 
 import com.force.codes.tracepinas.BuildConfig
 import com.force.codes.tracepinas.util.constants.Constants.TIMEOUT_MILLIS
-import com.force.codes.tracepinas.data.source.ApiSource
+import com.force.codes.tracepinas.data.source.PerCountryApi
 import com.force.codes.tracepinas.util.constants.ApiConstants.TWITTER_BEARER_TOKEN
 import com.force.codes.tracepinas.util.constants.ApiConstants.basePath
 import com.haroldadmin.cnradapter.NetworkResponseAdapterFactory
@@ -66,7 +66,7 @@ object NetworkApiModule {
 
   @Provides fun provideApi(
     retrofit: Retrofit,
-  ): ApiSource {
-    return retrofit.create(ApiSource::class.java)
+  ): PerCountryApi {
+    return retrofit.create(PerCountryApi::class.java)
   }
 }
