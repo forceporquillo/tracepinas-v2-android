@@ -11,7 +11,7 @@ import com.haroldadmin.cnradapter.NetworkResponse
 import retrofit2.http.GET
 import retrofit2.http.Url
 
-interface ApiSource {
+interface PerCountryApi {
   @GET suspend fun getPerCountryData(
     @Url url: String?
   ): NetworkResponse<List<PerCountry>, ErrorResponse>
