@@ -11,7 +11,6 @@ import com.force.codes.tracepinas.data.entities.PerCountry
 import com.force.codes.tracepinas.data.repository.PerCountryRepository
 import com.force.codes.tracepinas.ui.base.BaseViewModel
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 class ChangeCountryViewModel
@@ -20,13 +19,11 @@ class ChangeCountryViewModel
 ) : BaseViewModel() {
 
   private val _data = MutableLiveData<List<PerCountry>>()
-  val data: LiveData<List<PerCountry>> = _data
+  val data: LiveData<List<PerCountry>>? = _data
 
   private fun emit(ascending: Boolean = true): MutableLiveData<List<PerCountry>> {
-    viewModelScope.launch {
-      val queryResponse = countryRepository.makeQuery(ascending)
-      _data.value = queryResponse.value
-    }
+    val queryResponse = countryRepository.makeQuery(ascending)
+    _data.value = queryResponse.value
     return _data
   }
 
@@ -35,7 +32,6 @@ class ChangeCountryViewModel
   }
 
   init {
-    Timber.e("emit")
     emit(true)
   }
 }
