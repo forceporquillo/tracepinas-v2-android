@@ -24,9 +24,7 @@ import com.google.android.material.snackbar.Snackbar
 import timber.log.Timber
 import javax.inject.Inject
 
-class ListViewFragment : BaseFragment(
-  R.layout.fragment_list_view
-), AdapterListener {
+class ListViewFragment : BaseFragment(R.layout.fragment_list_view), AdapterListener {
 
   private lateinit var viewDataBinding: FragmentListViewBinding
 
