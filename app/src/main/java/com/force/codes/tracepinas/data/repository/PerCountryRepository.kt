@@ -10,7 +10,7 @@ import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import androidx.paging.PagedList.Config
 import com.force.codes.tracepinas.data.entities.PerCountry
-import com.force.codes.tracepinas.data.source.ApiSource
+import com.force.codes.tracepinas.data.source.PerCountryApi
 import com.force.codes.tracepinas.data.source.local.PerCountryDao
 import com.force.codes.tracepinas.util.ErrorResponse
 import com.force.codes.tracepinas.util.ResultWrapper
@@ -27,7 +27,7 @@ interface PerCountryRepository {
 }
 
 class PerCountryRepositoryImpl @Inject constructor(
-  private val apiSource: ApiSource,
+  private val perCountryApi: PerCountryApi,
   private val perCountryDao: PerCountryDao,
 ) : PerCountryRepository {
 
@@ -39,7 +39,7 @@ class PerCountryRepositoryImpl @Inject constructor(
 
   override suspend fun getFromNetworkSource() : NetworkResponse<List<PerCountry>, ErrorResponse> {
     val networkResponse = executeWithRetry(5) {
-      apiSource.getPerCountryData(ApiConstants.basePath("countries?sort=cases"))
+      perCountryApi.getPerCountryData(ApiConstants.basePath("countries?sort=cases"))
     }
     when (networkResponse) {
       is NetworkResponse.Success -> {
@@ -50,7 +50,6 @@ class PerCountryRepositoryImpl @Inject constructor(
           }
       }
     }
-
     return networkResponse
   }
 
