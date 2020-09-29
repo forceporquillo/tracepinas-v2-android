@@ -4,4 +4,6 @@
 
 package com.force.codes.tracepinas.util.sharedpref
 
+private const val PREF = "data class shared pref"
+
 data class SharedPrimary(var primart: String)
