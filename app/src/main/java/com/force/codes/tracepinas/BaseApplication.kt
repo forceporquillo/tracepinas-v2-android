@@ -33,7 +33,7 @@ class BaseApplication : Application(), HasAndroidInjector {
     /**
      * disabled thread policy
      * when working with Samsung
-     * J4 Device as DEBUG device
+     * J4 as test DEBUG device
      *
      * if (BuildConfig.DEBUG) {
      *   enabledStrictMode()
