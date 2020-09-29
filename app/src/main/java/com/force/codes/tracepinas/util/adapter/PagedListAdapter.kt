@@ -22,7 +22,7 @@ class PagedListAdapter<T>(
     parent: ViewGroup, viewType: Int,
   ): ViewHolder {
     val inflater = LayoutInflater.from(parent.context)
-    val binding : ViewDataBinding
+    val binding: ViewDataBinding
     when (holderType) {
       LIST_VIEW -> binding = PerCountryListBinding.inflate(inflater, parent, false)
       else -> throw ClassCastException()
