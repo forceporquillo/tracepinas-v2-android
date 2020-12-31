@@ -169,8 +169,7 @@ object Utils {
       pushAnim: Int,
       pullAnim: Int
   ): ActivityOptions {
-    return ActivityOptions
-      .makeCustomAnimation(
+    return ActivityOptions.makeCustomAnimation(
           context,
           pushAnim,
           pullAnim
